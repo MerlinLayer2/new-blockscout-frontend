@@ -48,6 +48,7 @@ import type {
   ArbitrumL2BatchTxs,
   ArbitrumL2BatchBlocks,
 } from 'types/api/arbitrumL2';
+import type { AdvancedFilterParams, AdvancedFilterResponse, AdvancedFilterMethodsResponse } from 'types/api/advancedFilter';
 import type { TxBlobs, Blob } from 'types/api/blobs';
 import type { BlocksResponse, BlockTransactionsResponse, Block, BlockFilters, BlockWithdrawalsResponse, BlockCountdownResponse } from 'types/api/block';
 import type { ChartMarketResponse, ChartSecondaryCoinPriceResponse, ChartTransactionResponse } from 'types/api/charts';
@@ -855,6 +856,33 @@ export const RESOURCES = {
     pathParams: [ 'hash' as const ],
   },
 
+  // ADVANCED FILTER
+  advanced_filter: {
+    path: '/api/v2/advanced-filters',
+    filterFields: [
+      'tx_types' as const,
+      'methods' as const,
+      'age_from' as const,
+      'age_to' as const,
+      'age' as const /* frontend only */,
+      'from_address_hashes' as const,
+      'to_address_hashes' as const,
+      'address_relation' as const,
+      'amount_from' as const,
+      'amount_to' as const,
+      'token_contract_address_hashes_to_include' as const,
+      'token_contract_address_hashes_to_exclude' as const,
+      'block_number' as const,
+      'transaction_index' as const,
+      'internal_transaction_index' as const,
+      'token_transfer_index' as const,
+    ],
+  },
+  advanced_filter_methods: {
+    path: '/api/v2/advanced-filters/methods',
+    filterFields: [ 'q' as const ],
+  },
+
   // CONFIGS
   config_backend_version: {
     path: '/api/v2/config/backend-version',
@@ -941,7 +969,8 @@ export type PaginatedResources = 'blocks' | 'block_txs' |
 'zksync_l2_txn_batches' | 'zksync_l2_txn_batch_txs' |
 'withdrawals' | 'address_withdrawals' | 'block_withdrawals' |
 'watchlist' | 'private_tags_address' | 'private_tags_tx' |
-'domains_lookup' | 'addresses_lookup' | 'user_ops' | 'validators' | 'noves_address_history';
+'domains_lookup' | 'addresses_lookup' | 'user_ops' | 'validators' | 'noves_address_history' |
+'advanced_filter';
 
 export type PaginatedResponse<Q extends PaginatedResources> = ResourcePayload<Q>;
 
@@ -1097,6 +1126,8 @@ Q extends 'address_mud_tables' ? AddressMudTables :
 Q extends 'address_mud_tables_count' ? number :
 Q extends 'address_mud_records' ? AddressMudRecords :
 Q extends 'address_mud_record' ? AddressMudRecord :
+Q extends 'advanced_filter' ? AdvancedFilterResponse :
+Q extends 'advanced_filter_methods' ? AdvancedFilterMethodsResponse :
 never;
 /* eslint-enable @typescript-eslint/indent */
 
@@ -1130,6 +1161,8 @@ Q extends 'user_ops' ? UserOpsFilters :
 Q extends 'validators' ? ValidatorsFilters :
 Q extends 'address_mud_tables' ? AddressMudTablesFilter :
 Q extends 'address_mud_records' ? AddressMudRecordsFilter :
+// FIXME
+Q extends 'advanced_filter' ? AdvancedFilterParams :
 never;
 /* eslint-enable @typescript-eslint/indent */
 
