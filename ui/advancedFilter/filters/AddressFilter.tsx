@@ -5,9 +5,8 @@ import React from 'react';
 import type { AdvancedFilterParams } from 'types/api/advancedFilter';
 
 import ClearButton from 'ui/shared/ClearButton';
+import TableColumnFilter from 'ui/shared/filters/TableColumnFilter';
 import IconSvg from 'ui/shared/IconSvg';
-
-import ColumnFilter from '../ColumnFilter';
 
 const FILTER_PARAM_TO_INCLUDE = 'to_address_hashes_to_include';
 const FILTER_PARAM_FROM_INCLUDE = 'from_address_hashes_to_include';
@@ -24,6 +23,7 @@ type Props = {
   columnName: string;
   type: 'from' | 'to';
   isLoading?: boolean;
+  onClose?: () => void;
 }
 
 type InputProps = {
@@ -75,7 +75,7 @@ const AddressFilterInput = ({ address, mode, onModeChange, onRemove, onChange, i
 
 const emptyItem = { address: '', mode: 'include' as AddressFilterMode };
 
-const AddressFilter = ({ type, value, handleFilterChange, columnName, isLoading }: Props) => {
+const AddressFilter = ({ type, value, handleFilterChange, onClose }: Props) => {
   const [ currentValue, setCurrentValue ] =
     React.useState<Array<{ address: string; mode: AddressFilterMode }>>([ ...value, emptyItem ] || [ emptyItem ]);
 
@@ -121,15 +121,12 @@ const AddressFilter = ({ type, value, handleFilterChange, columnName, isLoading 
   }, [ handleFilterChange, currentValue, type ]);
 
   return (
-    <ColumnFilter
-      columnName={ columnName }
+    <TableColumnFilter
       title={ type === 'from' ? 'From address' : 'To address' }
       isFilled={ Boolean(currentValue[0].address) }
-      isActive={ Boolean(value.length) }
       onFilter={ onFilter }
       onReset={ onReset }
-      isLoading={ isLoading }
-      w="382px"
+      onClose={ onClose }
     >
       <VStack gap={ 2 }>
         { currentValue.map((item, index) => (
@@ -145,7 +142,7 @@ const AddressFilter = ({ type, value, handleFilterChange, columnName, isLoading 
           />
         )) }
       </VStack>
-    </ColumnFilter>
+    </TableColumnFilter>
   );
 };
 

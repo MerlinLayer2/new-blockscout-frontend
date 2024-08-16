@@ -9,8 +9,7 @@ import type { AdvancedFilterMethodInfo, AdvancedFilterParams } from 'types/api/a
 import useApiQuery from 'lib/api/useApiQuery';
 import Tag from 'ui/shared/chakra/Tag';
 import FilterInput from 'ui/shared/filters/FilterInput';
-
-import ColumnFilter from '../ColumnFilter';
+import TableColumnFilter from 'ui/shared/filters/TableColumnFilter';
 
 const RESET_VALUE = 'all';
 
@@ -19,11 +18,10 @@ const FILTER_PARAM = 'methods';
 type Props = {
   value?: Array<AdvancedFilterMethodInfo>;
   handleFilterChange: (filed: keyof AdvancedFilterParams, val: Array<string>) => void;
-  columnName: string;
-  isLoading?: boolean;
+  onClose?: () => void;
 }
 
-const MethodFilter = ({ value = [], handleFilterChange, columnName, isLoading }: Props) => {
+const MethodFilter = ({ value = [], handleFilterChange, onClose }: Props) => {
   const [ currentValue, setCurrentValue ] = React.useState<Array<AdvancedFilterMethodInfo>>(value);
   const [ searchTerm, setSearchTerm ] = React.useState<string>('');
   const [ methodsList, setMethodsList ] = React.useState<Array<AdvancedFilterMethodInfo>>([]);
@@ -64,15 +62,12 @@ const MethodFilter = ({ value = [], handleFilterChange, columnName, isLoading }:
   }, [ handleFilterChange, currentValue ]);
 
   return (
-    <ColumnFilter
-      columnName={ columnName }
+    <TableColumnFilter
       title="Method"
-      isActive={ Boolean(value.length) }
       isFilled={ Boolean(currentValue.length) }
       onFilter={ onFilter }
       onReset={ onReset }
-      isLoading={ isLoading }
-      w="350px"
+      onClose={ onClose }
     >
       <FilterInput
         size="xs"
@@ -111,7 +106,7 @@ const MethodFilter = ({ value = [], handleFilterChange, columnName, isLoading }:
           </CheckboxGroup>
         </Flex>
       ) }
-    </ColumnFilter>
+    </TableColumnFilter>
   );
 };
 

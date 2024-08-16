@@ -9,8 +9,7 @@ import Tag from 'ui/shared/chakra/Tag';
 import ClearButton from 'ui/shared/ClearButton';
 import TokenEntity from 'ui/shared/entities/token/TokenEntity';
 import FilterInput from 'ui/shared/filters/FilterInput';
-
-import ColumnFilter from '../ColumnFilter';
+import TableColumnFilter from 'ui/shared/filters/TableColumnFilter';
 
 const FILTER_PARAM_INCLUDE = 'token_contract_address_hashes_to_include';
 const FILTER_PARAM_EXCLUDE = 'token_contract_address_hashes_to_exclude';
@@ -25,9 +24,10 @@ type Props = {
   handleFilterChange: (filed: keyof AdvancedFilterParams, val: Array<string>) => void;
   columnName: string;
   isLoading?: boolean;
+  onClose?: () => void;
 }
 
-const AssetFilter = ({ value, handleFilterChange, columnName, isLoading }: Props) => {
+const AssetFilter = ({ value, handleFilterChange, onClose }: Props) => {
   const [ currentValue, setCurrentValue ] = React.useState<Value>(value || []);
   const [ searchTerm, setSearchTerm ] = React.useState<string>('');
 
@@ -72,15 +72,12 @@ const AssetFilter = ({ value, handleFilterChange, columnName, isLoading }: Props
   }, [ handleFilterChange, currentValue ]);
 
   return (
-    <ColumnFilter
-      columnName={ columnName }
+    <TableColumnFilter
       title="Asset"
       isFilled={ Boolean(currentValue.length) }
-      isActive={ Boolean(value.length) }
       onFilter={ onFilter }
       onReset={ onReset }
-      isLoading={ isLoading }
-      w="382px"
+      onClose={ onClose }
     >
       <FilterInput
         size="xs"
@@ -153,7 +150,7 @@ const AssetFilter = ({ value, handleFilterChange, columnName, isLoading }: Props
           </CheckboxGroup>
         </Flex>
       ) }
-    </ColumnFilter>
+    </TableColumnFilter>
   );
 };
 

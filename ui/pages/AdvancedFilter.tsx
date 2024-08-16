@@ -1,4 +1,4 @@
-import { Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import { Table, Tbody, Tr, Th, Td, Thead, Box, Text, Tag, TagCloseButton, chakra, Flex, TagLabel, HStack, Link } from '@chakra-ui/react';
 import castArray from 'lodash/castArray';
 import omit from 'lodash/omit';
 import { useRouter } from 'next/router';
@@ -17,63 +17,68 @@ import { generateListStub } from 'stubs/utils';
 import ColumnsButton from 'ui/advancedFilter/ColumnsButton';
 import FilterByColumn from 'ui/advancedFilter/FilterByColumn';
 import ItemByColumn from 'ui/advancedFilter/ItemByColumn';
-import { getDurationFromAge } from 'ui/advancedFilter/lib';
+import { getDurationFromAge, getFilterTags } from 'ui/advancedFilter/lib';
 import ActionBar from 'ui/shared/ActionBar';
 import DataListDisplay from 'ui/shared/DataListDisplay';
+import IconSvg from 'ui/shared/IconSvg';
 import PageTitle from 'ui/shared/Page/PageTitle';
 import Pagination from 'ui/shared/pagination/Pagination';
 import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
-import TheadSticky from 'ui/shared/TheadSticky';
 
 export type ColumnsIds = 'tx_hash' | 'type' | 'method' | 'age' | 'from' | 'or_and' | 'to' | 'amount' | 'asset' | 'fee';
 
 type TxTableColumn = {
   id: ColumnsIds;
   name: string;
+  width: string;
   isNumeric?: boolean;
 }
 export const TABLE_COLUMNS: Array<TxTableColumn> = [
   {
     id: 'tx_hash',
     name: 'Tx hash',
+    width: '180px',
   },
   {
     id: 'type',
     name: 'Type',
+    width: '160px',
   },
   {
     id: 'method',
     name: 'Method',
-
+    width: '160px',
   },
   {
     id: 'age',
     name: 'Age',
+    width: '80px',
   },
   {
     id: 'from',
     name: 'From',
-  },
-  {
-    id: 'or_and',
-    name: 'OR/AND',
+    width: '190px',
   },
   {
     id: 'to',
     name: 'To',
+    width: '160px',
   },
   {
     id: 'amount',
     name: 'Amount',
     isNumeric: true,
+    width: '150px',
   },
   {
     id: 'asset',
     name: 'Asset',
+    width: '120px',
   },
   {
     id: 'fee',
     name: 'Fee',
+    width: '120px',
   },
 ] as const;
 
@@ -144,6 +149,15 @@ const AdvancedFilter = () => {
     });
   }, [ onFilterChange ]);
 
+  const onClearFilter = React.useCallback((key: keyof AdvancedFilterParams) => () => {
+    handleFilterChange(key, undefined);
+  }, [ handleFilterChange ]);
+
+  const clearAllFilters = React.useCallback(() => {
+    setFilters({});
+    onFilterChange({});
+  }, [ onFilterChange ]);
+
   const columnsToShow = React.useMemo(() => {
     return TABLE_COLUMNS.filter(c => columns[c.id]);
   }, [ columns ]);
@@ -152,40 +166,73 @@ const AdvancedFilter = () => {
     return null;
   }
 
+  const filterTags = getFilterTags(filters);
+
   const content = (
     <AddressHighlightProvider>
-      <Table variant="simple" style={{ tableLayout: 'auto' }} minWidth="950px" size="xs">
-        <TheadSticky top={ 80 }>
-          <Tr>
-            { columnsToShow.map(column => {
-              return (
-                <Th key={ column.id } isNumeric={ column.isNumeric }>
-                  { column.name }
-                  <FilterByColumn
-                    column={ column.id }
-                    columnName={ column.name }
-                    handleFilterChange={ handleFilterChange }
-                    filters={ filters }
-                    searchParams={ data?.search_params }
-                    isLoading={ isPlaceholderData }
-                  />
-                </Th>
-              );
-            }) }
-          </Tr>
-        </TheadSticky>
-        <Tbody>
-          { data?.items.map((item, index) => (
-            <Tr key={ item.hash + String(index) }>
-              { columnsToShow.map(column => (
-                <Td key={ item.hash + column.id } isNumeric={ column.isNumeric }>
-                  <ItemByColumn item={ item } column={ column.id } isLoading={ isPlaceholderData }/>
-                </Td>
-              )) }
+      <Box maxW="100%" overflowX="scroll" whiteSpace="nowrap">
+        <Table variant="simple" style={{ tableLayout: 'fixed' }} minWidth="950px" size="xs" w="100%">
+          <Thead w="100%" display="table">
+            <Tr>
+              { columnsToShow.map(column => {
+                return (
+                  <Th
+                    key={ column.id }
+                    isNumeric={ column.isNumeric }
+                    minW={ column.width }
+                    w={ column.width }
+                    wordBreak="break-word"
+                    whiteSpace="normal"
+                  >
+                    <chakra.span mr={ 2 } lineHeight="24px">{ column.name }</chakra.span>
+                    <FilterByColumn
+                      column={ column.id }
+                      columnName={ column.name }
+                      handleFilterChange={ handleFilterChange }
+                      filters={ filters }
+                      searchParams={ data?.search_params }
+                      isLoading={ isPlaceholderData }
+                    />
+                    { column.id === 'from' && (
+                      <>
+                        <chakra.span ml={ 6 } mr={ 2 } lineHeight="24px">OR/AND</chakra.span>
+                        <FilterByColumn
+                          column="or_and"
+                          columnName="OR/AND"
+                          handleFilterChange={ handleFilterChange }
+                          filters={ filters }
+                          searchParams={ data?.search_params }
+                          isLoading={ isPlaceholderData }
+                        />
+                      </>
+                    ) }
+                  </Th>
+                );
+              }) }
             </Tr>
-          )) }
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody w="100%" display="table">
+            { data?.items.map((item, index) => (
+              <Tr key={ item.hash + String(index) }>
+                { columnsToShow.map(column => (
+                  <Td
+                    key={ item.hash + column.id }
+                    isNumeric={ column.isNumeric }
+                    minW={ column.width }
+                    maxW={ column.width }
+                    w={ column.width }
+                    wordBreak="break-word"
+                    whiteSpace="nowrap"
+                    overflow="hidden"
+                  >
+                    <ItemByColumn item={ item } column={ column.id } isLoading={ isPlaceholderData }/>
+                  </Td>
+                )) }
+              </Tr>
+            )) }
+          </Tbody>
+        </Table>
+      </Box>
     </AddressHighlightProvider>
   );
 
@@ -202,16 +249,38 @@ const AdvancedFilter = () => {
         title="Advanced filter"
         withTextAd
       />
+      { filterTags.length !== 0 && (
+        <>
+          <Flex mb={ 4 } justifyContent="space-between" alignItems="start">
+            <Text fontSize="lg" mr={ 3 } lineHeight="24px" w="100px">Filtered by:</Text>
+            <Link onClick={ clearAllFilters } display="flex" alignItems="center" gap={ 2 } fontSize="sm" w="150px">
+              <IconSvg name="repeat" boxSize={ 5 }/>
+            Reset filters
+            </Link>
+          </Flex>
+          <HStack gap={ 2 } flexWrap="wrap" mb={ 6 }>
+            { filterTags.map(t => (
+              <Tag key={ t.name } colorScheme="blue" display="inline-flex">
+                <TagLabel>
+                  <chakra.span color="text_secondary">{ t.name }: </chakra.span>
+                  <chakra.span color="text">{ t.value }</chakra.span>
+                </TagLabel>
+                <TagCloseButton onClick={ onClearFilter(t.key) }/>
+              </Tag>
+            )) }
+          </HStack>
+        </>
+      ) }
       <DataListDisplay
         isError={ isError }
         items={ data?.items }
         emptyText="There are no transactions."
         content={ content }
         actionBar={ actionBar }
-        // filterProps={{
-        //   hasActiveFilters: Boolean(filterValue),
-        //   emptyFilteredText: 'No match found for current filter',
-        // }}
+        filterProps={{
+          hasActiveFilters: Object.values(filters).some(Boolean),
+          emptyFilteredText: 'No match found for current filter',
+        }}
       />
     </>
   );
