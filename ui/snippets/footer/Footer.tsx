@@ -20,7 +20,7 @@ import useApiQuery from "lib/api/useApiQuery";
 import useFetch from "lib/hooks/useFetch";
 import useIssueUrl from "lib/hooks/useIssueUrl";
 import { copy } from "lib/html-entities";
-import IconSvg from "ui/shared/IconSvg";
+import IconSvg, { IconName } from "ui/shared/IconSvg";
 import NetworkAddToWallet from "ui/shared/NetworkAddToWallet";
 
 import FooterLinkItem from "./FooterLinkItem";
@@ -169,10 +169,10 @@ const Footer = () => {
               Merlin Chain
             </Link>
           </Flex>
-          <Text mt={3} fontSize="xs">
+          {/* <Text mt={3} fontSize="xs">
             Blockscout is a tool for inspecting and analyzing EVM based
             blockchains. Blockchain explorer for Ethereum Networks.
-          </Text>
+          </Text> */}
           <Box mt={6} alignItems="start" fontSize="xs" lineHeight={5}>
             {/* {apiVersionUrl && (
               <Text>
@@ -247,13 +247,21 @@ const Footer = () => {
                   {linkGroup.title}
                 </Skeleton>
                 <VStack spacing={1} alignItems="start">
-                  {linkGroup.links.map((link) => (
-                    <FooterLinkItem
-                      {...link}
-                      key={link.text}
-                      isLoading={isPlaceholderData}
-                    />
-                  ))}
+                  {linkGroup.links.map(
+                    (link: {
+                      text: any;
+                      icon?: IconName | undefined;
+                      iconSize?: string | undefined;
+                      url?: string;
+                      isLoading?: boolean | undefined;
+                    }) => (
+                      <FooterLinkItem
+                        {...link}
+                        key={link.text}
+                        isLoading={isPlaceholderData}
+                      />
+                    )
+                  )}
                 </VStack>
               </Box>
             ))}
