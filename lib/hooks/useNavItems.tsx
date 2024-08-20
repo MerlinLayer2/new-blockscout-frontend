@@ -56,14 +56,12 @@ export default function useNavItems(): ReturnType {
       icon: 'transactions',
       isActive: pathname === '/txs' || pathname === '/tx/[hash]',
     };
-    const userOps: NavItem | null = config.features.userOps.isEnabled ?
-      {
-        text: 'User operations',
-        nextRoute: { pathname: '/ops' as const },
-        icon: 'user_op',
-        isActive: pathname === '/ops' || pathname === '/op/[hash]',
-      } :
-      null;
+    const userOps: NavItem | null = {
+      text: 'User operations',
+      nextRoute: { pathname: '/ops' as const },
+      icon: 'user_op',
+      isActive: pathname === '/ops' || pathname === '/op/[hash]',
+    };
 
     const verifiedContracts: NavItem | null = {
       text: 'Verified contracts',
