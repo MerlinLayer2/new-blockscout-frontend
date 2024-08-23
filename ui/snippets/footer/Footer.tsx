@@ -22,10 +22,10 @@ import useFetch from 'lib/hooks/useFetch';
 import useIssueUrl from 'lib/hooks/useIssueUrl';
 import { copy } from 'lib/html-entities';
 // import { IconName } from "ui/shared/IconSvg";
-import NetworkAddToWallet from 'ui/shared/NetworkAddToWallet';
+// import NetworkAddToWallet from "ui/shared/NetworkAddToWallet";
 
 import FooterLinkItem from './FooterLinkItem';
-import IntTxsIndexingStatus from './IntTxsIndexingStatus';
+// import IntTxsIndexingStatus from "./IntTxsIndexingStatus";
 // import getApiVersionUrl from "./utils/getApiVersionUrl";
 
 const MAX_LINKS_COLUMNS = 4;
@@ -129,24 +129,24 @@ const Footer = () => {
     1 :
     Math.min(linksData?.length || Infinity, MAX_LINKS_COLUMNS) + 1;
 
-  const renderNetworkInfo = React.useCallback(
-    (gridArea?: GridProps['gridArea']) => {
-      return (
-        <Flex
-          gridArea={ gridArea }
-          flexWrap="wrap"
-          columnGap={ 8 }
-          rowGap={ 6 }
-          mb={{ base: 5, lg: 10 }}
-          _empty={{ display: 'none' }}
-        >
-          { !config.UI.indexingAlert.intTxs.isHidden && <IntTxsIndexingStatus/> }
-          <NetworkAddToWallet/>
-        </Flex>
-      );
-    },
-    [],
-  );
+  // const renderNetworkInfo = React.useCallback(
+  //   (gridArea?: GridProps["gridArea"]) => {
+  //     return (
+  //       <Flex
+  //         gridArea={gridArea}
+  //         flexWrap="wrap"
+  //         columnGap={8}
+  //         rowGap={6}
+  //         mb={{ base: 5, lg: 10 }}
+  //         _empty={{ display: "none" }}
+  //       >
+  //         {!config.UI.indexingAlert.intTxs.isHidden && <IntTxsIndexingStatus />}
+  //         <NetworkAddToWallet />
+  //       </Flex>
+  //     );
+  //   },
+  //   []
+  // );
 
   const renderProjectInfo = React.useCallback(
     (gridArea?: GridProps['gridArea']) => {
@@ -196,7 +196,7 @@ const Footer = () => {
     return (
       <Grid { ...containerProps }>
         <div>
-          { renderNetworkInfo() }
+          { /* { renderNetworkInfo() } */ }
           { renderProjectInfo() }
         </div>
 
@@ -269,7 +269,7 @@ const Footer = () => {
         `,
       }}
     >
-      { renderNetworkInfo({ lg: 'network' }) }
+      { /* {renderNetworkInfo({ lg: "network" })} */ }
       { renderProjectInfo({ lg: 'info' }) }
 
       <Grid
