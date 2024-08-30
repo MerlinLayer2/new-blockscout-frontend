@@ -4,9 +4,10 @@ import React from 'react';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
-import { WEI } from 'lib/consts';
+import { WEI_IN_GWEI } from 'lib/consts';
 import getCurrencyValue from 'lib/getCurrencyValue';
 import { thinsp } from 'lib/html-entities';
+import { currencyUnits } from 'lib/units';
 import { HOMEPAGE_STATS } from 'stubs/stats';
 import { TXS_STATS } from 'stubs/tx';
 import StatsWidget from 'ui/shared/stats/StatsWidget';
@@ -36,7 +37,7 @@ const TxsStats = () => {
   });
 
   const _weiFee = BigNumber(txsStatsQuery.data.transaction_fees_avg_24h)
-    .dividedBy(WEI)
+    .dividedBy(WEI_IN_GWEI)
     .toFixed();
   console.log(txsStatsQuery, 'txsStatsQuery');
   console.log(txFeeAvg, 'txFeeAvg');
@@ -88,7 +89,9 @@ const TxsStats = () => {
       <StatsWidget
         label="Avgs. transaction fee"
         value={
-          txFeeAvg.usd ? `${ txFeeAvg.usd } (${ _weiFee })` : txFeeAvg.valueStr
+          txFeeAvg.usd ?
+            `${ txFeeAvg.usd } (${ _weiFee } ${ currencyUnits.gwei })` :
+            txFeeAvg.valueStr
         }
         valuePrefix={ txFeeAvg.usd ? '$' : undefined }
         valuePostfix={
