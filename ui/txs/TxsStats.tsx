@@ -68,7 +68,7 @@ const TxsStats = () => {
         value={ (
           Number(txsStatsQuery.data?.transaction_fees_sum_24h) /
           10 ** config.chain.currency.decimals
-        ).toLocaleString(undefined, { maximumFractionDigits: 2 }) }
+        ).toLocaleString(undefined, { maximumFractionDigits: 18 }) }
         valuePostfix={ thinsp + config.chain.currency.symbol }
         period="24h"
         isLoading={ txsStatsQuery.isPlaceholderData }
