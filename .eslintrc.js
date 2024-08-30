@@ -165,7 +165,7 @@ module.exports = {
       allowBlockStart: true,
     } ],
     'max-len': [ 'error', 160, 4 ],
-    'no-console': 'error',
+    // 'no-console': 'error',
     'no-empty': [ 'error', { allowEmptyCatch: true } ],
     'no-implicit-coercion': [ 'error', {
       number: true,

@@ -32,7 +32,8 @@ const TxsStats = () => {
     decimals: String(config.chain.currency.decimals),
     accuracyUsd: 2,
   });
-
+  console.log(txsStatsQuery, 'txsStatsQuery');
+  console.log(txFeeAvg, 'txFeeAvg');
   return (
     <Box
       display="grid"
@@ -43,36 +44,54 @@ const TxsStats = () => {
     >
       <StatsWidget
         label="Transactions"
-        value={ Number(txsStatsQuery.data?.transactions_count_24h).toLocaleString() }
+        value={ Number(
+          txsStatsQuery.data?.transactions_count_24h,
+        ).toLocaleString() }
         period="24h"
         isLoading={ txsStatsQuery.isPlaceholderData }
-        href={ config.features.stats.isEnabled ? { pathname: '/stats', query: { chartId: 'newTxns' } } : undefined }
+        href={
+          config.features.stats.isEnabled ?
+            { pathname: '/stats', query: { chartId: 'newTxns' } } :
+            undefined
+        }
       />
       <StatsWidget
         label="Pending transactions"
-        value={ Number(txsStatsQuery.data?.pending_transactions_count).toLocaleString() }
+        value={ Number(
+          txsStatsQuery.data?.pending_transactions_count,
+        ).toLocaleString() }
         period="1h"
         isLoading={ txsStatsQuery.isPlaceholderData }
       />
       <StatsWidget
         label="Transactions fees"
-        value={
-          (Number(txsStatsQuery.data?.transaction_fees_sum_24h) / (10 ** config.chain.currency.decimals))
-            .toLocaleString(undefined, { maximumFractionDigits: 2 })
-        }
+        value={ (
+          Number(txsStatsQuery.data?.transaction_fees_sum_24h) /
+          10 ** config.chain.currency.decimals
+        ).toLocaleString(undefined, { maximumFractionDigits: 2 }) }
         valuePostfix={ thinsp + config.chain.currency.symbol }
         period="24h"
         isLoading={ txsStatsQuery.isPlaceholderData }
-        href={ config.features.stats.isEnabled ? { pathname: '/stats', query: { chartId: 'txnsFee' } } : undefined }
+        href={
+          config.features.stats.isEnabled ?
+            { pathname: '/stats', query: { chartId: 'txnsFee' } } :
+            undefined
+        }
       />
       <StatsWidget
         label="Avg. transaction fee"
         value={ txFeeAvg.usd ? txFeeAvg.usd : txFeeAvg.valueStr }
         valuePrefix={ txFeeAvg.usd ? '$' : undefined }
-        valuePostfix={ txFeeAvg.usd ? undefined : thinsp + config.chain.currency.symbol }
+        valuePostfix={
+          txFeeAvg.usd ? undefined : thinsp + config.chain.currency.symbol
+        }
         period="24h"
         isLoading={ txsStatsQuery.isPlaceholderData }
-        href={ config.features.stats.isEnabled ? { pathname: '/stats', query: { chartId: 'averageTxnFee' } } : undefined }
+        href={
+          config.features.stats.isEnabled ?
+            { pathname: '/stats', query: { chartId: 'averageTxnFee' } } :
+            undefined
+        }
       />
     </Box>
   );
