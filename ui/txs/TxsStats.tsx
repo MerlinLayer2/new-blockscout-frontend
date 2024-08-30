@@ -1,8 +1,10 @@
 import { Box } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import { WEI } from 'lib/consts';
 import getCurrencyValue from 'lib/getCurrencyValue';
 import { thinsp } from 'lib/html-entities';
 import { HOMEPAGE_STATS } from 'stubs/stats';
@@ -32,8 +34,13 @@ const TxsStats = () => {
     decimals: String(config.chain.currency.decimals),
     accuracyUsd: 2,
   });
+
+  const _weiFee = BigNumber(txsStatsQuery.data.transaction_fees_avg_24h)
+    .dividedBy(WEI)
+    .toFixed();
   console.log(txsStatsQuery, 'txsStatsQuery');
   console.log(txFeeAvg, 'txFeeAvg');
+  console.log(_weiFee, '_weiFee');
   return (
     <Box
       display="grid"
@@ -80,7 +87,9 @@ const TxsStats = () => {
       />
       <StatsWidget
         label="Avgs. transaction fee"
-        value={ txFeeAvg.usd ? txFeeAvg.usd : txFeeAvg.valueStr }
+        value={
+          txFeeAvg.usd ? `${ txFeeAvg.usd } (${ _weiFee })` : txFeeAvg.valueStr
+        }
         valuePrefix={ txFeeAvg.usd ? '$' : undefined }
         valuePostfix={
           txFeeAvg.usd ? undefined : thinsp + config.chain.currency.symbol
