@@ -79,7 +79,7 @@ const TxsStats = () => {
         }
       />
       <StatsWidget
-        label="Avg. transaction fee"
+        label="Avgs. transaction fee"
         value={ txFeeAvg.usd ? txFeeAvg.usd : txFeeAvg.valueStr }
         valuePrefix={ txFeeAvg.usd ? '$' : undefined }
         valuePostfix={
