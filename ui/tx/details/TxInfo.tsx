@@ -461,7 +461,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
         actions={ data.actions }
         isTxDataLoading={ isLoading }
       />
-      { data.token_transfers && (
+      { Array.isArray(data.token_transfers) && data.token_transfers.length && (
         <>
           <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
             Sender
