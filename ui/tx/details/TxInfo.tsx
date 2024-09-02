@@ -469,9 +469,9 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
               Sender
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value columnGap={ 3 }>
-            { data.token_transfers?.[0]?.from?.hash ? (
+            { data.token_transfers?.[0]?.from ? (
               <AddressEntity
-                address={ data.token_transfers?.[0]?.from?.hash }
+                address={ data.token_transfers?.[0]?.from }
                 isLoading={ isLoading }
               />
             ) : null }
