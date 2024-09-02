@@ -36,6 +36,7 @@ import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
 import DetailsSponsoredItem from 'ui/shared/DetailsSponsoredItem';
 import DetailsTimestamp from 'ui/shared/DetailsTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
+import AddressStringOrParam from 'ui/shared/entities/address/AddressStringOrParam';
 import BatchEntityL2 from 'ui/shared/entities/block/BatchEntityL2';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntityL1 from 'ui/shared/entities/tx/TxEntityL1';
@@ -469,11 +470,15 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
             </DetailsInfoItem.Label>
             <DetailsInfoItem.Value columnGap={ 3 }>
               { data.token_transfers?.[0]?.from.hash ? (
-                <TxEntityL1
-                  hash={ data.token_transfers?.[0]?.from.hash || '' }
+                <AddressStringOrParam
+                  address={ data.token_transfers?.[0]?.from }
                   isLoading={ isLoading }
                 />
               ) : (
+              // <TxEntityL1
+              //   hash={ data.token_transfers?.[0]?.from.hash || '' }
+              //   isLoading={ isLoading }
+              // />
                 ' no sender'
               ) }
             </DetailsInfoItem.Value>
