@@ -461,21 +461,22 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
         actions={ data.actions }
         isTxDataLoading={ isLoading }
       />
-      { Array.isArray(data.token_transfers) && data.token_transfers.length ? (
-        <>
-          <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
+      { Array.isArray(data.token_transfers) &&
+      data.token_transfers.length > 0 ? (
+          <>
+            <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
             Sender
-          </DetailsInfoItem.Label>
-          <DetailsInfoItem.Value columnGap={ 3 }>
-            { data.token_transfers?.[0]?.from ? (
-              <TxEntityL1
-                hash={ data.token_transfers?.[0]?.from.hash }
-                isLoading={ isLoading }
-              />
-            ) : null }
-          </DetailsInfoItem.Value>
-        </>
-      ) : null }
+            </DetailsInfoItem.Label>
+            <DetailsInfoItem.Value columnGap={ 3 }>
+              { data.token_transfers?.[0]?.from?.hash ? (
+                <TxEntityL1
+                  hash={ data.token_transfers?.[0]?.from.hash }
+                  isLoading={ isLoading }
+                />
+              ) : null }
+            </DetailsInfoItem.Value>
+          </>
+        ) : null }
 
       <DetailsInfoItemDivider/>
 
