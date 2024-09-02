@@ -466,7 +466,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
       data.token_transfers.length > 0 ? (
           <>
             <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
-            Senders
+            Sender
             </DetailsInfoItem.Label>
             <DetailsInfoItem.Value columnGap={ 3 }>
               { data.token_transfers?.[0]?.from.hash ? (
