@@ -14,11 +14,15 @@ const TxDetails = ({ txQuery }: Props) => {
   if (txQuery.isError) {
     return <DataFetchAlert/>;
   }
-
+  console.log(txQuery, 'txQuerytxQuerytxQuerytxQuery22222');
   return (
     <>
       <TestnetWarning mb={ 6 } isLoading={ txQuery.isPlaceholderData }/>
-      <TxInfo data={ txQuery.data } isLoading={ txQuery.isPlaceholderData } socketStatus={ txQuery.socketStatus }/>
+      <TxInfo
+        data={ txQuery.data }
+        isLoading={ txQuery.isPlaceholderData }
+        socketStatus={ txQuery.socketStatus }
+      />
     </>
   );
 };

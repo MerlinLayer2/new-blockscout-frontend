@@ -39,9 +39,7 @@ const TxsStats = () => {
   const _weiFee = BigNumber(txsStatsQuery.data.transaction_fees_avg_24h)
     .dividedBy(WEI_IN_GWEI)
     .toFixed();
-  console.log(txsStatsQuery, 'txsStatsQuery');
-  console.log(txFeeAvg, 'txFeeAvg');
-  console.log(_weiFee, '_weiFee');
+
   return (
     <Box
       display="grid"
@@ -87,7 +85,7 @@ const TxsStats = () => {
         }
       />
       <StatsWidget
-        label="Avgs. transaction fee"
+        label="Avg. transaction fee"
         value={
           txFeeAvg.usd ?
             `${ txFeeAvg.usd } (${ _weiFee } ${ currencyUnits.gwei })` :
