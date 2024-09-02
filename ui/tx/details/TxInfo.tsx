@@ -465,13 +465,17 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
       data.token_transfers.length > 0 ? (
           <>
             <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
-            Sender
+            Senders
             </DetailsInfoItem.Label>
             <DetailsInfoItem.Value columnGap={ 3 }>
-              <TxEntityL1
-                hash={ data.token_transfers?.[0]?.from.hash || '' }
-                isLoading={ isLoading }
-              />
+              { data.token_transfers?.[0]?.from.hash ? (
+                <TxEntityL1
+                  hash={ data.token_transfers?.[0]?.from.hash || '' }
+                  isLoading={ isLoading }
+                />
+              ) : (
+                ' no sender'
+              ) }
             </DetailsInfoItem.Value>
           </>
         ) : null }
