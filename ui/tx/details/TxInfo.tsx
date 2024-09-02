@@ -170,7 +170,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
       <DetailsInfoItem.Value flexWrap="nowrap">
         { data.status === null && <Spinner mr={ 2 } size="sm" flexShrink={ 0 }/> }
         <Skeleton isLoaded={ !isLoading } overflow="hidden">
-          <HashStringShortenDynamic hash={ data?.hash }/>
+          { data?.hash && <HashStringShortenDynamic hash={ data.hash }/> }
         </Skeleton>
         <CopyToClipboard text={ data.hash } isLoading={ isLoading }/>
 
@@ -471,7 +471,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
               address={
                 Array.isArray(data.token_transfers) &&
                 data.token_transfers.length ?
-                  data.token_transfers[0]?.from?.hash :
+                  data.token_transfers?.[0]?.from?.hash :
                   ''
               }
               isLoading={ isLoading }
@@ -605,7 +605,9 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value flexWrap="nowrap">
             <Skeleton isLoaded={ !isLoading } overflow="hidden">
-              <HashStringShortenDynamic hash={ data?.zkevm_sequence_hash }/>
+              { data?.zkevm_sequence_hash && (
+                <HashStringShortenDynamic hash={ data.zkevm_sequence_hash }/>
+              ) }
             </Skeleton>
             <CopyToClipboard
               text={ data.zkevm_sequence_hash }
@@ -622,7 +624,9 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value flexWrap="nowrap">
             <Skeleton isLoaded={ !isLoading } overflow="hidden">
-              <HashStringShortenDynamic hash={ data?.zkevm_verify_hash }/>
+              { data?.zkevm_verify_hash && (
+                <HashStringShortenDynamic hash={ data?.zkevm_verify_hash }/>
+              ) }
             </Skeleton>
             <CopyToClipboard
               text={ data.zkevm_verify_hash }
