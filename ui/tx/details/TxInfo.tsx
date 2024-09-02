@@ -468,12 +468,10 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
             Sender
             </DetailsInfoItem.Label>
             <DetailsInfoItem.Value columnGap={ 3 }>
-              { data.token_transfers?.[0]?.from?.hash ? (
-                <TxEntityL1
-                  hash={ data.token_transfers?.[0]?.from.hash }
-                  isLoading={ isLoading }
-                />
-              ) : null }
+              <TxEntityL1
+                hash={ data.token_transfers?.[0]?.from.hash || '' }
+                isLoading={ isLoading }
+              />
             </DetailsInfoItem.Value>
           </>
         ) : null }
