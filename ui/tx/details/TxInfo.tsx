@@ -461,21 +461,20 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
         actions={ data.actions }
         isTxDataLoading={ isLoading }
       />
-      { Array.isArray(data.token_transfers) && data.token_transfers.length && (
+      { Array.isArray(data.token_transfers) &&
+        data.token_transfers.length &&
+        data.token_transfers?.[0]?.from?.hash && (
         <>
           <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
-            Sender
+              Sender
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value columnGap={ 3 }>
-            <AddressEntity
-              address={
-                Array.isArray(data.token_transfers) &&
-                data.token_transfers.length ?
-                  data.token_transfers?.[0]?.from?.hash :
-                  ''
-              }
-              isLoading={ isLoading }
-            />
+            { data.token_transfers?.[0]?.from?.hash ? (
+              <AddressEntity
+                address={ data.token_transfers?.[0]?.from?.hash }
+                isLoading={ isLoading }
+              />
+            ) : null }
           </DetailsInfoItem.Value>
         </>
       ) }
