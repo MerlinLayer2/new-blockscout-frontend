@@ -87,7 +87,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
   if (!data) {
     return null;
   }
-
+  console.log(data, 'datadatadatadatadatadata');
   const addressFromTags = [
     ...(data.from.private_tags || []),
     ...(data.from.public_tags || []),
@@ -461,19 +461,24 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
         actions={ data.actions }
         isTxDataLoading={ isLoading }
       />
-      <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
-        Sender
-      </DetailsInfoItem.Label>
-      <DetailsInfoItem.Value columnGap={ 3 }>
-        <AddressEntity
-          address={
-            Array.isArray(data.token_transfers) && data.token_transfers.length ?
-              data.token_transfers[0]?.from?.hash :
-              ''
-          }
-          isLoading={ isLoading }
-        />
-      </DetailsInfoItem.Value>
+      { data.token_transfers && (
+        <>
+          <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
+            Sender
+          </DetailsInfoItem.Label>
+          <DetailsInfoItem.Value columnGap={ 3 }>
+            <AddressEntity
+              address={
+                Array.isArray(data.token_transfers) &&
+                data.token_transfers.length ?
+                  data.token_transfers[0]?.from?.hash :
+                  ''
+              }
+              isLoading={ isLoading }
+            />
+          </DetailsInfoItem.Value>
+        </>
+      ) }
 
       <DetailsInfoItemDivider/>
 
