@@ -462,28 +462,6 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
         actions={ data.actions }
         isTxDataLoading={ isLoading }
       />
-      { Array.isArray(data.token_transfers) &&
-      data.token_transfers.length > 0 ? (
-          <>
-            <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
-            Sender
-            </DetailsInfoItem.Label>
-            <DetailsInfoItem.Value columnGap={ 3 }>
-              { data.token_transfers?.[0]?.from.hash ? (
-                <AddressStringOrParam
-                  address={ data.token_transfers?.[0]?.from }
-                  isLoading={ isLoading }
-                />
-              ) : (
-              // <TxEntityL1
-              //   hash={ data.token_transfers?.[0]?.from.hash || '' }
-              //   isLoading={ isLoading }
-              // />
-                ' no sender'
-              ) }
-            </DetailsInfoItem.Value>
-          </>
-        ) : null }
 
       <DetailsInfoItemDivider/>
 
@@ -500,7 +478,24 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           <Flex columnGap={ 3 }>{ addressFromTags }</Flex>
         ) }
       </DetailsInfoItem.Value>
-
+      { Array.isArray(data.token_transfers) &&
+      data.token_transfers.length > 0 ? (
+          <>
+            <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
+            AA Address
+            </DetailsInfoItem.Label>
+            <DetailsInfoItem.Value columnGap={ 3 }>
+              { data.token_transfers?.[0]?.from.hash ? (
+                <AddressStringOrParam
+                  address={ data.token_transfers?.[0]?.from }
+                  isLoading={ isLoading }
+                />
+              ) : (
+                ' no sender'
+              ) }
+            </DetailsInfoItem.Value>
+          </>
+        ) : null }
       <DetailsInfoItem.Label
         hint="Address (external or contract) receiving the transaction"
         isLoading={ isLoading }
