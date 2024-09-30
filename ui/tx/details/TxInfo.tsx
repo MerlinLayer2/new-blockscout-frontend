@@ -26,6 +26,7 @@ import config from 'configs/app';
 import { WEI, WEI_IN_GWEI } from 'lib/consts';
 import getArbitrumVerificationStepStatus from 'lib/getArbitrumVerificationStepStatus';
 import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
+// import { MESSAGE_DESCRIPTIONS } from "lib/tx/arbitrumMessageStatusDescription";
 import getConfirmationDuration from 'lib/tx/getConfirmationDuration';
 import { currencyUnits } from 'lib/units';
 import Tag from 'ui/shared/chakra/Tag';
@@ -41,6 +42,7 @@ import BatchEntityL2 from 'ui/shared/entities/block/BatchEntityL2';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntityL1 from 'ui/shared/entities/tx/TxEntityL1';
 import HashStringShortenDynamic from 'ui/shared/HashStringShortenDynamic';
+// import Hint from "ui/shared/Hint";
 import IconSvg from 'ui/shared/IconSvg';
 import LogDecodedInputData from 'ui/shared/logs/LogDecodedInputData';
 import RawInputData from 'ui/shared/RawInputData';
@@ -84,6 +86,14 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
     'blackAlpha.800',
     'whiteAlpha.800',
   );
+
+  // const showAssociatedL1Tx = React.useCallback(() => {
+  //   setIsExpanded(true);
+  //   scroller.scrollTo("TxInfo__cutLink", {
+  //     duration: 500,
+  //     smooth: true,
+  //   });
+  // }, []);
 
   if (!data) {
     return null;

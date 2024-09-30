@@ -1,3 +1,4 @@
+//ts-ignore
 import type { GridProps } from '@chakra-ui/react';
 import {
   Box,

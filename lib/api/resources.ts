@@ -43,19 +43,29 @@ import type { AddressesResponse } from 'types/api/addresses';
 import type { AddressMetadataInfo, PublicTagTypesResponse } from 'types/api/addressMetadata';
 import type {
   ArbitrumL2MessagesResponse,
+  ArbitrumL2MessagesItem,
   ArbitrumL2TxnBatch,
   ArbitrumL2TxnBatchesResponse,
   ArbitrumL2BatchTxs,
   ArbitrumL2BatchBlocks,
+  ArbitrumL2TxnBatchesItem,
 } from 'types/api/arbitrumL2';
 import type { TxBlobs, Blob } from 'types/api/blobs';
-import type { BlocksResponse, BlockTransactionsResponse, Block, BlockFilters, BlockWithdrawalsResponse, BlockCountdownResponse } from 'types/api/block';
+import type {
+  BlocksResponse,
+  BlockTransactionsResponse,
+  Block,
+  BlockFilters,
+  BlockWithdrawalsResponse,
+  BlockCountdownResponse,
+  BlockEpoch,
+  BlockEpochElectionRewardDetailsResponse,
+} from 'types/api/block';
 import type { ChartMarketResponse, ChartSecondaryCoinPriceResponse, ChartTransactionResponse } from 'types/api/charts';
 import type { BackendVersionConfig } from 'types/api/configs';
 import type {
   SmartContract,
   SmartContractVerificationConfigRaw,
-  SolidityscanReport,
   SmartContractSecurityAudits,
 } from 'types/api/contract';
 import type { VerifiedContractsResponse, VerifiedContractsFilters, VerifiedContractsCounters } from 'types/api/contracts';
@@ -231,6 +241,12 @@ export const RESOURCES = {
     basePath: getFeaturePayload(config.features.nameService)?.api.basePath,
     filterFields: [ 'address' as const, 'resolved_to' as const, 'owned_by' as const, 'only_active' as const, 'protocols' as const ],
   },
+  address_domain: {
+    path: '/api/v1/:chainId/addresses/:address',
+    pathParams: [ 'chainId' as const, 'address' as const ],
+    endpoint: getFeaturePayload(config.features.nameService)?.api.endpoint,
+    basePath: getFeaturePayload(config.features.nameService)?.api.basePath,
+  },
   domain_info: {
     path: '/api/v1/:chainId/domains/:name',
     pathParams: [ 'chainId' as const, 'name' as const ],
@@ -318,6 +334,16 @@ export const RESOURCES = {
   block_withdrawals: {
     path: '/api/v2/blocks/:height_or_hash/withdrawals',
     pathParams: [ 'height_or_hash' as const ],
+    filterFields: [],
+  },
+  block_epoch: {
+    path: '/api/v2/blocks/:height_or_hash/epoch',
+    pathParams: [ 'height_or_hash' as const ],
+    filterFields: [],
+  },
+  block_election_rewards: {
+    path: '/api/v2/blocks/:height_or_hash/election-rewards/:reward_type',
+    pathParams: [ 'height_or_hash' as const, 'reward_type' as const ],
     filterFields: [],
   },
   txs_stats: {
@@ -478,7 +504,7 @@ export const RESOURCES = {
     path: '/api/v2/smart-contracts/:hash/verification/via/:method',
     pathParams: [ 'hash' as const, 'method' as const ],
   },
-  contract_solidityscan_report: {
+  contract_solidity_scan_report: {
     path: '/api/v2/smart-contracts/:hash/solidityscan-report',
     pathParams: [ 'hash' as const ],
   },
@@ -580,14 +606,20 @@ export const RESOURCES = {
   homepage_blocks: {
     path: '/api/v2/main-page/blocks',
   },
-  homepage_deposits: {
+  homepage_optimistic_deposits: {
     path: '/api/v2/main-page/optimism-deposits',
+  },
+  homepage_arbitrum_deposits: {
+    path: '/api/v2/main-page/arbitrum/messages/to-rollup',
   },
   homepage_txs: {
     path: '/api/v2/main-page/transactions',
   },
   homepage_zkevm_l2_batches: {
     path: '/api/v2/main-page/zkevm/batches/confirmed',
+  },
+  homepage_arbitrum_l2_batches: {
+    path: '/api/v2/main-page/arbitrum/batches/committed',
   },
   homepage_txs_watchlist: {
     path: '/api/v2/main-page/transactions/watchlist',
@@ -600,6 +632,9 @@ export const RESOURCES = {
   },
   homepage_zksync_latest_batch: {
     path: '/api/v2/main-page/zksync/batches/latest-number',
+  },
+  homepage_arbitrum_latest_batch: {
+    path: '/api/v2/main-page/arbitrum/batches/latest-number',
   },
 
   // SEARCH
@@ -922,7 +957,7 @@ export interface ResourceError<T = unknown> {
 
 export type ResourceErrorAccount<T> = ResourceError<{ errors: T }>
 
-export type PaginatedResources = 'blocks' | 'block_txs' |
+export type PaginatedResources = 'blocks' | 'block_txs' | 'block_election_rewards' |
 'txs_validated' | 'txs_pending' | 'txs_with_blobs' | 'txs_watchlist' | 'txs_execution_node' |
 'tx_internal_txs' | 'tx_logs' | 'tx_token_transfers' | 'tx_state_changes' | 'tx_blobs' |
 'addresses' |
@@ -966,11 +1001,14 @@ Q extends 'stats_charts_secondary_coin_price' ? ChartSecondaryCoinPriceResponse 
 Q extends 'homepage_blocks' ? Array<Block> :
 Q extends 'homepage_txs' ? Array<Transaction> :
 Q extends 'homepage_txs_watchlist' ? Array<Transaction> :
-Q extends 'homepage_deposits' ? Array<OptimisticL2DepositsItem> :
+Q extends 'homepage_optimistic_deposits' ? Array<OptimisticL2DepositsItem> :
+Q extends 'homepage_arbitrum_deposits' ? { items: Array<ArbitrumL2MessagesItem> } :
 Q extends 'homepage_zkevm_l2_batches' ? { items: Array<ZkEvmL2TxnBatchesItem> } :
+Q extends 'homepage_arbitrum_l2_batches' ? { items: Array<ArbitrumL2TxnBatchesItem>} :
 Q extends 'homepage_indexing_status' ? IndexingStatus :
 Q extends 'homepage_zkevm_latest_batch' ? number :
 Q extends 'homepage_zksync_latest_batch' ? number :
+Q extends 'homepage_arbitrum_latest_batch' ? number :
 Q extends 'stats_counters' ? stats.Counters :
 Q extends 'stats_lines' ? stats.LineCharts :
 Q extends 'stats_line' ? stats.LineChart :
@@ -979,6 +1017,8 @@ Q extends 'block' ? Block :
 Q extends 'block_countdown' ? BlockCountdownResponse :
 Q extends 'block_txs' ? BlockTransactionsResponse :
 Q extends 'block_withdrawals' ? BlockWithdrawalsResponse :
+Q extends 'block_epoch' ? BlockEpoch :
+Q extends 'block_election_rewards' ? BlockEpochElectionRewardDetailsResponse :
 Q extends 'txs_stats' ? TransactionsStats :
 Q extends 'txs_validated' ? TransactionsResponseValidated :
 Q extends 'txs_pending' ? TransactionsResponsePending :
@@ -1024,13 +1064,11 @@ Q extends 'quick_search' ? Array<SearchResultItem> :
 Q extends 'search' ? SearchResult :
 Q extends 'search_check_redirect' ? SearchRedirectResult :
 Q extends 'contract' ? SmartContract :
-Q extends 'contract_solidityscan_report' ? SolidityscanReport :
+Q extends 'contract_solidity_scan_report' ? unknown :
 Q extends 'verified_contracts' ? VerifiedContractsResponse :
 Q extends 'verified_contracts_counters' ? VerifiedContractsCounters :
 Q extends 'visualize_sol2uml' ? visualizer.VisualizeResponse :
 Q extends 'contract_verification_config' ? SmartContractVerificationConfigRaw :
-Q extends 'withdrawals' ? WithdrawalsResponse :
-Q extends 'withdrawals_counters' ? WithdrawalsCounters :
 Q extends 'optimistic_l2_output_roots' ? OptimisticL2OutputRootsResponse :
 Q extends 'optimistic_l2_withdrawals' ? OptimisticL2WithdrawalsResponse :
 Q extends 'optimistic_l2_deposits' ? OptimisticL2DepositsResponse :
@@ -1081,6 +1119,7 @@ Q extends 'zksync_l2_txn_batch' ? ZkSyncBatch :
 Q extends 'zksync_l2_txn_batch_txs' ? ZkSyncBatchTxs :
 Q extends 'contract_security_audits' ? SmartContractSecurityAudits :
 Q extends 'addresses_lookup' ? bens.LookupAddressResponse :
+Q extends 'address_domain' ? bens.GetAddressResponse :
 Q extends 'domain_info' ? bens.DetailedDomain :
 Q extends 'domain_events' ? bens.ListDomainEventsResponse :
 Q extends 'domains_lookup' ? bens.LookupDomainNameResponse :
@@ -1097,6 +1136,8 @@ Q extends 'address_mud_tables' ? AddressMudTables :
 Q extends 'address_mud_tables_count' ? number :
 Q extends 'address_mud_records' ? AddressMudRecords :
 Q extends 'address_mud_record' ? AddressMudRecord :
+Q extends 'withdrawals' ? WithdrawalsResponse :
+Q extends 'withdrawals_counters' ? WithdrawalsCounters :
 never;
 /* eslint-enable @typescript-eslint/indent */
 

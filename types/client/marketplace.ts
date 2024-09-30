@@ -1,4 +1,4 @@
-import type { SolidityscanReport } from 'types/api/contract';
+import type { SolidityScanReport, SolidityScanReportSeverityDistribution } from 'lib/solidityScan/schema';
 
 export type MarketplaceAppPreview = {
   id: string;
@@ -29,6 +29,7 @@ export type MarketplaceAppOverview = MarketplaceAppPreview & MarketplaceAppSocia
 export type AppRating = {
   recordId: string;
   value: number | undefined;
+  count?: number;
 }
 
 export type MarketplaceAppWithSecurityReport = MarketplaceAppOverview & {
@@ -54,12 +55,12 @@ export type MarketplaceAppSecurityReport = {
     solidityScanContractsNumber: number;
     securityScore: number;
     totalIssues?: number;
-    issueSeverityDistribution: SolidityscanReport['scan_report']['scan_summary']['issue_severity_distribution'];
+    issueSeverityDistribution: SolidityScanReportSeverityDistribution;
   };
   contractsData: Array<{
     address: string;
     isVerified: boolean;
-    solidityScanReport?: SolidityscanReport['scan_report'] | null;
+    solidityScanReport?: SolidityScanReport['scan_report'] | null;
   }>;
 }
 
