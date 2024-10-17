@@ -718,19 +718,22 @@ const BlockDetails = ({ query }: Props) => {
               </DetailsInfoItem.Value>
             </>
           ) }
+          { Number(data.difficulty) !== 0 && (
+            <>
+              <DetailsInfoItem.Label
+                hint={ `Block difficulty for ${ validatorTitle }, used to calibrate block generation time` }
+              >
+                Difficulty
+              </DetailsInfoItem.Label>
+              <DetailsInfoItem.Value overflow="hidden">
+                <HashStringShortenDynamic
+                  hash={ BigNumber(data.difficulty).toFormat() }
+                />
+              </DetailsInfoItem.Value>
+            </>
+          ) }
 
-          <DetailsInfoItem.Label
-            hint={ `Block difficulty for ${ validatorTitle }, used to calibrate block generation time` }
-          >
-            Difficulty
-          </DetailsInfoItem.Label>
-          <DetailsInfoItem.Value overflow="hidden">
-            <HashStringShortenDynamic
-              hash={ BigNumber(data.difficulty).toFormat() }
-            />
-          </DetailsInfoItem.Value>
-
-          { data.total_difficulty && (
+          { Number(data.total_difficulty) !== 0 && (
             <>
               <DetailsInfoItem.Label hint="Total difficulty of the chain until this block">
                 Total difficulty
@@ -812,10 +815,11 @@ const BlockDetails = ({ query }: Props) => {
             </>
           ) }
 
-          { !config.UI.views.block.hiddenFields?.nonce && (
+          { !config.UI.views.block.hiddenFields?.nonce &&
+            data.nonce !== '0x0000000000000000' && (
             <>
               <DetailsInfoItem.Label hint="Block nonce is a value used during mining to demonstrate proof of work for a block">
-                Nonce
+                  Nonce
               </DetailsInfoItem.Label>
               <DetailsInfoItem.Value>{ data.nonce }</DetailsInfoItem.Value>
             </>

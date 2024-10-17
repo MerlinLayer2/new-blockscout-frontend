@@ -48,7 +48,7 @@ const BlocksTable = ({
   //   (!isRollup && !config.UI.views.block.hiddenFields?.burnt_fees
   //     ? FEES_COL_WEIGHT
   //     : 0);
-
+  console.log(data, 'blocks table list data');
   return (
     <AddressHighlightProvider>
       <Table variant="simple" minWidth="1040px" size="md" fontWeight={ 500 }>
