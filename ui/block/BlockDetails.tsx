@@ -74,6 +74,7 @@ const BlockDetails = ({ query }: Props) => {
 
   const handlePrevNextClick = React.useCallback(
     (direction: 'prev' | 'next') => {
+      console.log(data, 'blocks detail data');
       if (!data) {
         return;
       }
@@ -741,7 +742,7 @@ const BlockDetails = ({ query }: Props) => {
               </DetailsInfoItem.Label>
               <DetailsInfoItem.Value overflow="hidden">
                 <HashStringShortenDynamic
-                  hash={ BigNumber(data.total_difficulty).toFormat() }
+                  hash={ BigNumber(data.total_difficulty as string).toFormat() }
                 />
               </DetailsInfoItem.Value>
             </>
