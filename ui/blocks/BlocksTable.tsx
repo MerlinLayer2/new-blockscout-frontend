@@ -23,12 +23,12 @@ interface Props {
   showSocketInfo?: boolean;
 }
 
-const VALIDATOR_COL_WEIGHT = 23;
-const GAS_COL_WEIGHT = 33;
-const REWARD_COL_WEIGHT = 22;
-const FEES_COL_WEIGHT = 22;
+// const VALIDATOR_COL_WEIGHT = 23;
+// const GAS_COL_WEIGHT = 33;
+// const REWARD_COL_WEIGHT = 22;
+// const FEES_COL_WEIGHT = 22;
 
-const isRollup = config.features.rollup.isEnabled;
+// const isRollup = config.features.rollup.isEnabled;
 
 const BlocksTable = ({
   data,
@@ -39,35 +39,37 @@ const BlocksTable = ({
   socketInfoNum,
   socketInfoAlert,
 }: Props) => {
-  const widthBase =
-    (!config.UI.views.block.hiddenFields?.miner ? VALIDATOR_COL_WEIGHT : 0) +
-    GAS_COL_WEIGHT +
-    (!isRollup && !config.UI.views.block.hiddenFields?.total_reward ?
-      REWARD_COL_WEIGHT :
-      0) +
-    (!isRollup && !config.UI.views.block.hiddenFields?.burnt_fees ?
-      FEES_COL_WEIGHT :
-      0);
+  // const widthBase =
+  //   (!config.UI.views.block.hiddenFields?.miner ? VALIDATOR_COL_WEIGHT : 0) +
+  //   GAS_COL_WEIGHT +
+  //   (!isRollup && !config.UI.views.block.hiddenFields?.total_reward
+  //     ? REWARD_COL_WEIGHT
+  //     : 0) +
+  //   (!isRollup && !config.UI.views.block.hiddenFields?.burnt_fees
+  //     ? FEES_COL_WEIGHT
+  //     : 0);
 
   return (
     <AddressHighlightProvider>
       <Table variant="simple" minWidth="1040px" size="md" fontWeight={ 500 }>
         <Thead top={ top }>
           <Tr>
-            <Th width="150px">Block</Th>
-            <Th width="120px">Size, bytes</Th>
+            <Th width="25%">Block</Th>
+            <Th width="25%">Size, bytes</Th>
             { !config.UI.views.block.hiddenFields?.miner && (
               <Th
-                width={ `${ (VALIDATOR_COL_WEIGHT / widthBase) * 100 }%` }
+                // width={`${(VALIDATOR_COL_WEIGHT / widthBase) * 100}%`}
+                width="25%"
                 minW="160px"
               >
                 { capitalize(getNetworkValidatorTitle()) }
               </Th>
             ) }
-            <Th width="64px" isNumeric>
+            <Th width="25%" isNumeric>
               Txn
             </Th>
-            <Th width={ `${ (GAS_COL_WEIGHT / widthBase) * 100 }%` }>Gas used</Th>
+            { /* <Th width={ `${ (GAS_COL_WEIGHT / widthBase) * 100 }%` }>Gas used</Th> */ }
+            <Th width={ `${ 25 }%` }>Gas used</Th>
             { /* { !isRollup && !config.UI.views.block.hiddenFields?.total_reward &&
               <Th width={ `${ REWARD_COL_WEIGHT / widthBase * 100 }%` }>Reward { currencyUnits.ether }</Th> }
             { !isRollup && !config.UI.views.block.hiddenFields?.burnt_fees &&
