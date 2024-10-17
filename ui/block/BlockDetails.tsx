@@ -62,6 +62,7 @@ const BlockDetails = ({ query }: Props) => {
   const heightOrHash = getQueryParamString(router.query.height_or_hash);
 
   const { data, isPlaceholderData } = query;
+  console.log(data, 'blocks detail data');
 
   const handleCutClick = React.useCallback(() => {
     setIsExpanded((flag) => !flag);
@@ -733,7 +734,7 @@ const BlockDetails = ({ query }: Props) => {
             </>
           ) }
 
-          { Number(data.total_difficulty) !== 0 && (
+          { data.total_difficulty !== '0' && (
             <>
               <DetailsInfoItem.Label hint="Total difficulty of the chain until this block">
                 Total difficulty
