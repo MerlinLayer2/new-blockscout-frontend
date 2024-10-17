@@ -5,10 +5,10 @@ import type { Transaction } from 'types/api/transaction';
 
 import config from 'configs/app';
 import { ZERO } from 'lib/consts';
-import { currencyUnits } from 'lib/units';
-import CurrencyValue from 'ui/shared/CurrencyValue';
-import * as DetailsInfoItem from 'ui/shared/DetailsInfoItem';
-import IconSvg from 'ui/shared/IconSvg';
+// import { currencyUnits } from "lib/units";
+// import CurrencyValue from "ui/shared/CurrencyValue";
+// import * as DetailsInfoItem from "ui/shared/DetailsInfoItem";
+// import IconSvg from "ui/shared/IconSvg";
 
 const rollupFeature = config.features.rollup;
 
@@ -17,13 +17,19 @@ interface Props {
   isLoading?: boolean;
 }
 
-const TxDetailsBurntFees = ({ data, isLoading }: Props) => {
-
-  if (config.UI.views.tx.hiddenFields?.burnt_fees || (rollupFeature.isEnabled && rollupFeature.type === 'optimistic')) {
+const TxDetailsBurntFees = ({ data }: Props) => {
+  if (
+    config.UI.views.tx.hiddenFields?.burnt_fees ||
+    (rollupFeature.isEnabled && rollupFeature.type === 'optimistic')
+  ) {
     return null;
   }
 
-  const value = BigNumber(data.tx_burnt_fee || 0).plus(BigNumber(data.blob_gas_used || 0).multipliedBy(BigNumber(data.blob_gas_price || 0)));
+  const value = BigNumber(data.tx_burnt_fee || 0).plus(
+    BigNumber(data.blob_gas_used || 0).multipliedBy(
+      BigNumber(data.blob_gas_price || 0),
+    ),
+  );
 
   if (value.isEqualTo(ZERO)) {
     return null;
@@ -31,7 +37,8 @@ const TxDetailsBurntFees = ({ data, isLoading }: Props) => {
 
   return (
     <>
-      <DetailsInfoItem.Label
+      <div></div>
+      { /* <DetailsInfoItem.Label
         hint={ `
             Amount of ${ currencyUnits.ether } burned for this transaction. Equals Block Base Fee per Gas * Gas Used
             ${ data.blob_gas_price && data.blob_gas_used ? ' + Blob Gas Price * Blob Gas Used' : '' }
@@ -50,7 +57,7 @@ const TxDetailsBurntFees = ({ data, isLoading }: Props) => {
           ml={ 2 }
           isLoading={ isLoading }
         />
-      </DetailsInfoItem.Value>
+      </DetailsInfoItem.Value> */ }
     </>
   );
 };

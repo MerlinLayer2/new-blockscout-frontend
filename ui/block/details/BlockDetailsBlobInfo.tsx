@@ -1,16 +1,16 @@
-import { Text, Tooltip } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import type { Block } from 'types/api/block';
 
-import { WEI, WEI_IN_GWEI, ZERO } from 'lib/consts';
+import { WEI, WEI_IN_GWEI } from 'lib/consts';
 import { space } from 'lib/html-entities';
 import { currencyUnits } from 'lib/units';
 import * as DetailsInfoItem from 'ui/shared/DetailsInfoItem';
 import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
-import IconSvg from 'ui/shared/IconSvg';
-import Utilization from 'ui/shared/Utilization/Utilization';
+// import IconSvg from "ui/shared/IconSvg";
+// import Utilization from "ui/shared/Utilization/Utilization";
 
 interface Props {
   data: Block;
@@ -26,12 +26,13 @@ const BlockDetailsBlobInfo = ({ data }: Props) => {
     return null;
   }
 
-  const burntBlobFees = BigNumber(data.burnt_blob_fees || 0);
-  const blobFees = BigNumber(data.blob_gas_price || 0).multipliedBy(BigNumber(data.blob_gas_used || 0));
+  // const burntBlobFees = BigNumber(data.burnt_blob_fees || 0);
+  // const blobFees = BigNumber(data.blob_gas_price || 0).multipliedBy(
+  //   BigNumber(data.blob_gas_used || 0)
+  // );
 
   return (
     <>
-
       { data.blob_gas_price && (
         <>
           <DetailsInfoItem.Label
@@ -41,18 +42,21 @@ const BlockDetailsBlobInfo = ({ data }: Props) => {
             Blob gas price
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value>
-            <Text>{ BigNumber(data.blob_gas_price).dividedBy(WEI).toFixed() } { currencyUnits.ether } </Text>
+            <Text>
+              { BigNumber(data.blob_gas_price).dividedBy(WEI).toFixed() }{ ' ' }
+              { currencyUnits.ether }{ ' ' }
+            </Text>
             <Text variant="secondary" whiteSpace="pre">
-              { space }({ BigNumber(data.blob_gas_price).dividedBy(WEI_IN_GWEI).toFixed() } { currencyUnits.gwei })
+              { space }(
+              { BigNumber(data.blob_gas_price).dividedBy(WEI_IN_GWEI).toFixed() }{ ' ' }
+              { currencyUnits.gwei })
             </Text>
           </DetailsInfoItem.Value>
         </>
       ) }
       { data.blob_gas_used && (
         <>
-          <DetailsInfoItem.Label
-            hint="Actual amount of gas used by the blobs in this block"
-          >
+          <DetailsInfoItem.Label hint="Actual amount of gas used by the blobs in this block">
             Blob gas used
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value>
@@ -60,7 +64,7 @@ const BlockDetailsBlobInfo = ({ data }: Props) => {
           </DetailsInfoItem.Value>
         </>
       ) }
-      { !burntBlobFees.isEqualTo(ZERO) && (
+      { /* { !burntBlobFees.isEqualTo(ZERO) && (
         <>
           <DetailsInfoItem.Label
             hint={ `Amount of ${ currencyUnits.ether } used for blobs in this block` }
@@ -79,18 +83,21 @@ const BlockDetailsBlobInfo = ({ data }: Props) => {
             ) }
           </DetailsInfoItem.Value>
         </>
-      ) }
+      ) } */ }
       { data.excess_blob_gas && (
         <>
-          <DetailsInfoItem.Label
-            hint="A running total of blob gas consumed in excess of the target, prior to the block."
-          >
+          <DetailsInfoItem.Label hint="A running total of blob gas consumed in excess of the target, prior to the block.">
             Excess blob gas
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value>
-            <Text>{ BigNumber(data.excess_blob_gas).dividedBy(WEI).toFixed() } { currencyUnits.ether } </Text>
+            <Text>
+              { BigNumber(data.excess_blob_gas).dividedBy(WEI).toFixed() }{ ' ' }
+              { currencyUnits.ether }{ ' ' }
+            </Text>
             <Text variant="secondary" whiteSpace="pre">
-              { space }({ BigNumber(data.excess_blob_gas).dividedBy(WEI_IN_GWEI).toFixed() } { currencyUnits.gwei })
+              { space }(
+              { BigNumber(data.excess_blob_gas).dividedBy(WEI_IN_GWEI).toFixed() }{ ' ' }
+              { currencyUnits.gwei })
             </Text>
           </DetailsInfoItem.Value>
         </>
