@@ -61,14 +61,14 @@ const TxsStats = () => {
             undefined
         }
       />
-      <StatsWidget
+      { /* <StatsWidget
         label="Pending transactions"
         value={ Number(
           txsStatsQuery.data?.pending_transactions_count,
         ).toLocaleString() }
         period="1h"
         isLoading={ txsStatsQuery.isPlaceholderData }
-      />
+      /> */ }
       <StatsWidget
         label="Transactions fees"
         value={ (
