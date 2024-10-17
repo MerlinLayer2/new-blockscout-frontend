@@ -12,7 +12,9 @@ import TokensListItem from './TokensListItem';
 import TokensTable from './TokensTable';
 
 interface Props {
-  query: QueryWithPagesResult<'tokens'> | QueryWithPagesResult<'tokens_bridged'>;
+  query:
+  | QueryWithPagesResult<'tokens'>
+  | QueryWithPagesResult<'tokens_bridged'>;
   onSortChange: () => void;
   sort: TokensSortingValue | undefined;
   actionBar?: React.ReactNode;
@@ -21,14 +23,21 @@ interface Props {
   tableTop?: number;
 }
 
-const Tokens = ({ query, onSortChange, sort, actionBar, description, hasActiveFilters, tableTop }: Props) => {
-
+const Tokens = ({
+  query,
+  onSortChange,
+  sort,
+  actionBar,
+  description,
+  hasActiveFilters,
+  tableTop,
+}: Props) => {
   const { isError, isPlaceholderData, data, pagination } = query;
 
   if (isError) {
     return <DataFetchAlert/>;
   }
-
+  console.log(data, 'tokensssssss');
   const content = data?.items ? (
     <>
       <Show below="lg" ssr={ false }>
@@ -67,7 +76,9 @@ const Tokens = ({ query, onSortChange, sort, actionBar, description, hasActiveFi
         hasActiveFilters,
       }}
       content={ content }
-      actionBar={ query.pagination.isVisible || hasActiveFilters ? actionBar : null }
+      actionBar={
+        query.pagination.isVisible || hasActiveFilters ? actionBar : null
+      }
     />
   );
 };
