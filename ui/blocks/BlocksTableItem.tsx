@@ -16,7 +16,7 @@ import type { Block } from 'types/api/block';
 import { route } from 'nextjs-routes';
 
 import config from 'configs/app';
-import getBlockTotalReward from 'lib/block/getBlockTotalReward';
+// import getBlockTotalReward from "lib/block/getBlockTotalReward";
 // import { WEI } from "lib/consts";
 import BlockGasUsed from 'ui/shared/block/BlockGasUsed';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -32,10 +32,10 @@ interface Props {
   enableTimeIncrement?: boolean;
 }
 
-const isRollup = config.features.rollup.isEnabled;
+// const isRollup = config.features.rollup.isEnabled;
 
 const BlocksTableItem = ({ data, isLoading, enableTimeIncrement }: Props) => {
-  const totalReward = getBlockTotalReward(data);
+  // const totalReward = getBlockTotalReward(data);
   // const burntFees = BigNumber(data.burnt_fees || 0);
   // const txFees = BigNumber(data.tx_fees || 0);
 
@@ -117,46 +117,51 @@ const BlocksTableItem = ({ data, isLoading, enableTimeIncrement }: Props) => {
           data.tx_count
         ) }
       </Td>
+
       <Td fontSize="sm">
-        <Skeleton isLoaded={ !isLoading } display="inline-block">
-          { BigNumber(data.gas_used || 0).toFormat() }
-        </Skeleton>
-        <Flex mt={ 2 }>
-          <BlockGasUsed
-            gasUsed={ data.gas_used }
-            gasLimit={ data.gas_limit }
-            isLoading={ isLoading }
-            gasTarget={ data.gas_target_percentage }
-          />
-        </Flex>
+        { Number(data.gas_used) !== 0 && (
+          <>
+            <Skeleton isLoaded={ !isLoading } display="inline-block">
+              { BigNumber(data.gas_used || 0).toFormat() }
+            </Skeleton>
+            <Flex mt={ 2 }>
+              <BlockGasUsed
+                gasUsed={ data.gas_used }
+                gasLimit={ data.gas_limit }
+                isLoading={ isLoading }
+                gasTarget={ data.gas_target_percentage }
+              />
+            </Flex>
+          </>
+        ) }
       </Td>
-      { !isRollup && !config.UI.views.block.hiddenFields?.total_reward && (
+      { /* { !isRollup && !config.UI.views.block.hiddenFields?.total_reward && (
         <Td fontSize="sm">
           <Skeleton isLoaded={ !isLoading } display="inline-block">
             { totalReward.toFixed(8) }
           </Skeleton>
         </Td>
-      ) }
-      { !isRollup && !config.UI.views.block.hiddenFields?.burnt_fees && (
+      ) } */ }
+      { /* { !isRollup && !config.UI.views.block.hiddenFields?.burnt_fees && (
         <Td fontSize="sm">
-          <Flex alignItems="center" columnGap={ 2 }>
-            { /* <IconSvg
+          <Flex alignItems="center" columnGap={ 2 }> */ }
+      { /* <IconSvg
               name="flame"
               boxSize={5}
               color={burntFeesIconColor}
               isLoading={isLoading}
             /> */ }
-            { /* <Skeleton isLoaded={!isLoading} display="inline-block">
+      { /* <Skeleton isLoaded={!isLoading} display="inline-block">
               {burntFees.dividedBy(WEI).toFixed(8)}
             </Skeleton> */ }
-          </Flex>
-          { /* <Tooltip label={ isLoading ? undefined : 'Burnt fees / Txn fees * 100%' }>
+      { /* </Flex> */ }
+      { /* <Tooltip label={ isLoading ? undefined : 'Burnt fees / Txn fees * 100%' }>
             <Box w="min-content">
               <Utilization mt={ 2 } value={ burntFees.div(txFees).toNumber() } isLoading={ isLoading }/>
             </Box>
           </Tooltip> */ }
-        </Td>
-      ) }
+      { /* </Td> */ }
+      { /* // ) } */ }
     </Tr>
   );
 };
