@@ -17,19 +17,13 @@ type Props = {
   index: number;
   page: number;
   isLoading?: boolean;
-}
+};
 
 const PAGE_SIZE = 50;
 
 const bridgedTokensFeature = config.features.bridgedTokens;
 
-const TokensTableItem = ({
-  token,
-  page,
-  index,
-  isLoading,
-}: Props) => {
-
+const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
   const {
     address,
     exchange_rate: exchangeRate,
@@ -38,17 +32,16 @@ const TokensTableItem = ({
     circulating_market_cap: marketCap,
     origin_chain_id: originalChainId,
   } = token;
+  console.log(token, 'tokentokentokentokentoken');
 
   const bridgedChainTag = bridgedTokensFeature.isEnabled ?
-    bridgedTokensFeature.chains.find(({ id }) => id === originalChainId)?.short_title :
+    bridgedTokensFeature.chains.find(({ id }) => id === originalChainId)
+      ?.short_title :
     undefined;
 
   return (
     <ListItemMobile rowGap={ 3 }>
-      <Grid
-        width="100%"
-        gridTemplateColumns="minmax(0, 1fr)"
-      >
+      <Grid width="100%" gridTemplateColumns="minmax(0, 1fr)">
         <GridItem display="flex">
           <TokenEntity
             token={ token }
@@ -61,14 +54,30 @@ const TokensTableItem = ({
           />
           <Flex ml={ 3 } flexShrink={ 0 } columnGap={ 1 }>
             <Tag isLoading={ isLoading }>{ getTokenTypeName(type) }</Tag>
-            { bridgedChainTag && <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag> }
+            { bridgedChainTag && (
+              <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag>
+            ) }
           </Flex>
-          <Skeleton isLoaded={ !isLoading } fontSize="sm" ml="auto" color="text_secondary" minW="24px" textAlign="right" lineHeight={ 6 }>
+          <Skeleton
+            isLoaded={ !isLoading }
+            fontSize="sm"
+            ml="auto"
+            color="text_secondary"
+            minW="24px"
+            textAlign="right"
+            lineHeight={ 6 }
+          >
             <span>{ (page - 1) * PAGE_SIZE + index + 1 }</span>
           </Skeleton>
         </GridItem>
       </Grid>
-      <Flex justifyContent="space-between" alignItems="center" width="150px" ml={ 7 } mt={ -2 }>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        width="150px"
+        ml={ 7 }
+        mt={ -2 }
+      >
         <AddressEntity
           address={{ hash: address }}
           isLoading={ isLoading }
@@ -79,21 +88,36 @@ const TokensTableItem = ({
       </Flex>
       { exchangeRate && (
         <HStack spacing={ 3 }>
-          <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>Price</Skeleton>
+          <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>
+            Price
+          </Skeleton>
           <Skeleton isLoaded={ !isLoading } fontSize="sm" color="text_secondary">
-            <span>${ Number(exchangeRate).toLocaleString(undefined, { minimumSignificantDigits: 4 }) }</span>
+            <span>
+              $
+              { Number(exchangeRate).toLocaleString(undefined, {
+                minimumSignificantDigits: 4,
+              }) }
+            </span>
           </Skeleton>
         </HStack>
       ) }
       { marketCap && (
         <HStack spacing={ 3 }>
-          <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>On-chain market cap</Skeleton>
-          <Skeleton isLoaded={ !isLoading } fontSize="sm" color="text_secondary"><span>{ BigNumber(marketCap).toFormat() }</span></Skeleton>
+          <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>
+            On-chain market cap
+          </Skeleton>
+          <Skeleton isLoaded={ !isLoading } fontSize="sm" color="text_secondary">
+            <span>{ BigNumber(marketCap).toFormat() }</span>
+          </Skeleton>
         </HStack>
       ) }
       <HStack spacing={ 3 }>
-        <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>Holders</Skeleton>
-        <Skeleton isLoaded={ !isLoading } fontSize="sm" color="text_secondary"><span>{ Number(holders).toLocaleString() }</span></Skeleton>
+        <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>
+          Holders
+        </Skeleton>
+        <Skeleton isLoaded={ !isLoading } fontSize="sm" color="text_secondary">
+          <span>{ Number(holders).toLocaleString() }</span>
+        </Skeleton>
       </HStack>
     </ListItemMobile>
   );
