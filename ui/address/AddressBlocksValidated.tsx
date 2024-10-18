@@ -6,12 +6,12 @@ import React from 'react';
 import type { SocketMessage } from 'lib/socket/types';
 import type { AddressBlocksValidatedResponse } from 'types/api/address';
 
-import config from 'configs/app';
+// import config from "configs/app";
 import { getResourceKey } from 'lib/api/useApiQuery';
 import useIsMounted from 'lib/hooks/useIsMounted';
 import useSocketChannel from 'lib/socket/useSocketChannel';
 import useSocketMessage from 'lib/socket/useSocketMessage';
-import { currencyUnits } from 'lib/units';
+// import { currencyUnits } from "lib/units";
 import { BLOCK } from 'stubs/block';
 import { generateListStub } from 'stubs/utils';
 import ActionBar, { ACTION_BAR_HEIGHT_DESKTOP } from 'ui/shared/ActionBar';
@@ -32,7 +32,11 @@ interface Props {
   isQueryEnabled?: boolean;
 }
 
-const AddressBlocksValidated = ({ scrollRef, shouldRender = true, isQueryEnabled = true }: Props) => {
+const AddressBlocksValidated = ({
+  scrollRef,
+  shouldRender = true,
+  isQueryEnabled = true,
+}: Props) => {
   const [ socketAlert, setSocketAlert ] = React.useState('');
   const [ newItemsCount, setNewItemsCount ] = React.useState(0);
 
@@ -47,50 +51,56 @@ const AddressBlocksValidated = ({ scrollRef, shouldRender = true, isQueryEnabled
     scrollRef,
     options: {
       enabled: isQueryEnabled,
-      placeholderData: generateListStub<'address_blocks_validated'>(
-        BLOCK,
-        50,
-        {
-          next_page_params: {
-            block_number: 9060562,
-            items_count: 50,
-          },
+      placeholderData: generateListStub<'address_blocks_validated'>(BLOCK, 50, {
+        next_page_params: {
+          block_number: 9060562,
+          items_count: 50,
         },
-      ),
+      }),
     },
   });
 
   const handleSocketError = React.useCallback(() => {
-    setSocketAlert('An error has occurred while fetching new blocks. Please refresh the page to load new blocks.');
+    setSocketAlert(
+      'An error has occurred while fetching new blocks. Please refresh the page to load new blocks.',
+    );
   }, []);
 
-  const handleNewSocketMessage: SocketMessage.NewBlock['handler'] = React.useCallback((payload) => {
-    setSocketAlert('');
+  const handleNewSocketMessage: SocketMessage.NewBlock['handler'] =
+    React.useCallback(
+      (payload) => {
+        setSocketAlert('');
 
-    queryClient.setQueryData(
-      getResourceKey('address_blocks_validated', { pathParams: { hash: addressHash } }),
-      (prevData: AddressBlocksValidatedResponse | undefined) => {
-        if (!prevData) {
-          return;
-        }
+        queryClient.setQueryData(
+          getResourceKey('address_blocks_validated', {
+            pathParams: { hash: addressHash },
+          }),
+          (prevData: AddressBlocksValidatedResponse | undefined) => {
+            if (!prevData) {
+              return;
+            }
 
-        if (prevData.items.length >= OVERLOAD_COUNT) {
-          setNewItemsCount(prev => prev + 1);
-          return prevData;
-        }
+            if (prevData.items.length >= OVERLOAD_COUNT) {
+              setNewItemsCount((prev) => prev + 1);
+              return prevData;
+            }
 
-        return {
-          ...prevData,
-          items: [ payload.block, ...prevData.items ],
-        };
-      });
-  }, [ addressHash, queryClient ]);
+            return {
+              ...prevData,
+              items: [ payload.block, ...prevData.items ],
+            };
+          },
+        );
+      },
+      [ addressHash, queryClient ],
+    );
 
   const channel = useSocketChannel({
     topic: `blocks:${ addressHash.toLowerCase() }`,
     onSocketClose: handleSocketError,
     onSocketError: handleSocketError,
-    isDisabled: !addressHash || query.isPlaceholderData || query.pagination.page !== 1,
+    isDisabled:
+      !addressHash || query.isPlaceholderData || query.pagination.page !== 1,
   });
   useSocketMessage({
     channel,
@@ -106,14 +116,16 @@ const AddressBlocksValidated = ({ scrollRef, shouldRender = true, isQueryEnabled
     <>
       <Hide below="lg" ssr={ false }>
         <Table variant="simple" size="sm" style={{ tableLayout: 'auto' }}>
-          <Thead top={ query.pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }>
+          <Thead
+            top={ query.pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
+          >
             <Tr>
               <Th>Block</Th>
               <Th>Age</Th>
               <Th>Txn</Th>
               <Th>Gas used</Th>
-              { !config.UI.views.block.hiddenFields?.total_reward && !config.features.rollup.isEnabled &&
-              <Th isNumeric>Reward { currencyUnits.ether }</Th> }
+              { /* { !config.UI.views.block.hiddenFields?.total_reward && !config.features.rollup.isEnabled &&
+              <Th isNumeric>Reward { currencyUnits.ether }</Th> } */ }
             </Tr>
           </Thead>
           <Tbody>
@@ -126,7 +138,9 @@ const AddressBlocksValidated = ({ scrollRef, shouldRender = true, isQueryEnabled
             />
             { query.data.items.map((item, index) => (
               <AddressBlocksValidatedTableItem
-                key={ item.height + (query.isPlaceholderData ? String(index) : '') }
+                key={
+                  item.height + (query.isPlaceholderData ? String(index) : '')
+                }
                 { ...item }
                 page={ query.pagination.page }
                 isLoading={ query.isPlaceholderData }
