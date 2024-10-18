@@ -193,12 +193,15 @@ export default function useNavItems(): ReturnType {
         isActive: pathname === '/api-docs',
       },
       // : null,
-      // config.features.graphqlApiDocs.isEnabled ? {
-      //   text: 'GraphQL',
-      //   nextRoute: { pathname: '/graphiql' as const },
-      //   icon: 'graphQL',
-      //   isActive: pathname === '/graphiql',
-      // } : null,
+      // config.features.graphqlApiDocs.isEnabled
+      // ?
+      {
+        text: 'GraphQL',
+        nextRoute: { pathname: '/graphiql' as const },
+        icon: 'graphQL',
+        isActive: pathname === '/graphiql',
+      },
+      // : null,
       // !config.UI.navigation.hiddenLinks?.rpc_api && {
       //   text: 'RPC API',
       //   icon: 'RPC',

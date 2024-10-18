@@ -10,12 +10,26 @@ import type { TokenTransfer } from './tokenTransfer';
 import type { TxAction } from './txAction';
 import type { ZkSyncBatchesItem } from './zkSyncL2';
 
-export type TransactionRevertReason = {
-  raw: string;
-} | DecodedInput;
+export type TransactionRevertReason =
+  | {
+    raw: string;
+  }
+  | DecodedInput;
 
-type WrappedTransactionFields = 'decoded_input' | 'fee' | 'gas_limit' | 'gas_price' | 'hash' | 'max_fee_per_gas' |
-'max_priority_fee_per_gas' | 'method' | 'nonce' | 'raw_input' | 'to' | 'type' | 'value';
+type WrappedTransactionFields =
+  | 'decoded_input'
+  | 'fee'
+  | 'gas_limit'
+  | 'gas_price'
+  | 'hash'
+  | 'max_fee_per_gas'
+  | 'max_priority_fee_per_gas'
+  | 'method'
+  | 'nonce'
+  | 'raw_input'
+  | 'to'
+  | 'type'
+  | 'value';
 
 export interface OpWithdrawal {
   l1_transaction_hash: string;
@@ -84,11 +98,11 @@ export type Transaction = {
   // zkEvm fields
   zkevm_verify_hash?: string;
   zkevm_batch_number?: number;
-  zkevm_status?: typeof ZKEVM_L2_TX_STATUSES[number];
+  zkevm_status?: (typeof ZKEVM_L2_TX_STATUSES)[number];
   zkevm_sequence_hash?: string;
   // zkSync FIELDS
   zksync?: Omit<ZkSyncBatchesItem, 'number' | 'tx_count' | 'timestamp'> & {
-    'batch_number': number | null;
+    batch_number: number | null;
   };
   // blob tx fields
   blob_versioned_hashes?: Array<string>;
@@ -99,7 +113,7 @@ export type Transaction = {
   // Noves-fi
   translation?: NovesTxTranslation;
   arbitrum?: ArbitrumTransactionData;
-}
+};
 
 type ArbitrumTransactionData = {
   batch_number: number;
@@ -115,11 +129,16 @@ type ArbitrumTransactionData = {
     associated_l1_transaction: string | null;
     message_status: ArbitrumMessageStatus;
   };
-}
+};
 
-export type ArbitrumMessageStatus = 'Relayed' | 'Syncing with base layer' | 'Waiting for confirmation' | 'Ready for relay' | 'Settlement pending';
+export type ArbitrumMessageStatus =
+  | 'Relayed'
+  | 'Syncing with base layer'
+  | 'Waiting for confirmation'
+  | 'Ready for relay'
+  | 'Settlement pending';
 
-export const ZKEVM_L2_TX_STATUSES = [ 'Confirmed by Sequencer', 'L1 Confirmed' ];
+export const ZKEVM_L2_TX_STATUSES = [ 'Confirmed by Sequencer' ];
 
 export interface TransactionsStats {
   pending_transactions_count: string;
@@ -128,7 +147,9 @@ export interface TransactionsStats {
   transactions_count_24h: string;
 }
 
-export type TransactionsResponse = TransactionsResponseValidated | TransactionsResponsePending;
+export type TransactionsResponse =
+  | TransactionsResponseValidated
+  | TransactionsResponsePending;
 
 export interface TransactionsResponseValidated {
   items: Array<Transaction>;
@@ -167,16 +188,20 @@ export interface TransactionsResponseWatchlist {
   } | null;
 }
 
-export type TransactionType = 'rootstock_remasc' |
-'rootstock_bridge' |
-'token_transfer' |
-'contract_creation' |
-'contract_call' |
-'token_creation' |
-'coin_transfer' |
-'blob_transaction'
+export type TransactionType =
+  | 'rootstock_remasc'
+  | 'rootstock_bridge'
+  | 'token_transfer'
+  | 'contract_creation'
+  | 'contract_call'
+  | 'token_creation'
+  | 'coin_transfer'
+  | 'blob_transaction';
 
-export type TxsResponse = TransactionsResponseValidated | TransactionsResponsePending | BlockTransactionsResponse;
+export type TxsResponse =
+  | TransactionsResponseValidated
+  | TransactionsResponsePending
+  | BlockTransactionsResponse;
 
 export interface TransactionsSorting {
   sort: 'value' | 'fee';
@@ -185,4 +210,5 @@ export interface TransactionsSorting {
 
 export type TransactionsSortingField = TransactionsSorting['sort'];
 
-export type TransactionsSortingValue = `${ TransactionsSortingField }-${ TransactionsSorting['order'] }`;
+export type TransactionsSortingValue =
+  `${ TransactionsSortingField }-${ TransactionsSorting['order'] }`;
