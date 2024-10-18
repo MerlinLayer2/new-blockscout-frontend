@@ -1,5 +1,5 @@
 import { Flex, Td, Tr, Skeleton } from '@chakra-ui/react';
-import BigNumber from 'bignumber.js';
+// import BigNumber from "bignumber.js";
 import React from 'react';
 
 import type { TokenInfo } from 'types/api/token';
@@ -17,30 +17,25 @@ type Props = {
   index: number;
   page: number;
   isLoading?: boolean;
-}
+};
 
 const PAGE_SIZE = 50;
 
 const bridgedTokensFeature = config.features.bridgedTokens;
 
-const TokensTableItem = ({
-  token,
-  page,
-  index,
-  isLoading,
-}: Props) => {
-
+const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
   const {
     address,
-    exchange_rate: exchangeRate,
+    // exchange_rate: exchangeRate,
     type,
     holders,
-    circulating_market_cap: marketCap,
+    // circulating_market_cap: marketCap,
     origin_chain_id: originalChainId,
   } = token;
 
   const bridgedChainTag = bridgedTokensFeature.isEnabled ?
-    bridgedTokensFeature.chains.find(({ id }) => id === originalChainId)?.short_title :
+    bridgedTokensFeature.chains.find(({ id }) => id === originalChainId)
+      ?.short_title :
     undefined;
 
   const tokenAddress: AddressEntityProps['address'] = {
@@ -51,7 +46,12 @@ const TokensTableItem = ({
     ens_domain_name: null,
     implementations: null,
   };
-
+  const onGotoMerlinSwap = () => {
+    window.open('https://merlinswap.org/trade/swap');
+  };
+  const onGotoUniCross = () => {
+    window.open('https://unicross.xyz/index');
+  };
   return (
     <Tr
       sx={{
@@ -98,12 +98,22 @@ const TokensTableItem = ({
             </Flex>
             <Flex columnGap={ 1 }>
               <Tag isLoading={ isLoading }>{ getTokenTypeName(type) }</Tag>
-              { bridgedChainTag && <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag> }
+              { bridgedChainTag && (
+                <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag>
+              ) }
+            </Flex>
+            <Flex columnGap={ 1 }>
+              { type === 'ERC-20' && (
+                <div onClick={ onGotoMerlinSwap }>merlinSwap</div>
+              ) }
+              { type === 'ERC-721' && (
+                <div onClick={ onGotoUniCross }>unicross</div>
+              ) }
             </Flex>
           </Flex>
         </Flex>
       </Td>
-      <Td isNumeric>
+      { /* <Td isNumeric>
         <Skeleton isLoaded={ !isLoading } fontSize="sm" lineHeight="24px" fontWeight={ 500 } display="inline-block">
           { exchangeRate && `$${ Number(exchangeRate).toLocaleString(undefined, { minimumSignificantDigits: 4 }) }` }
         </Skeleton>
@@ -112,7 +122,7 @@ const TokensTableItem = ({
         <Skeleton isLoaded={ !isLoading } fontSize="sm" lineHeight="24px" fontWeight={ 500 } display="inline-block">
           { marketCap && `$${ BigNumber(marketCap).toFormat() }` }
         </Skeleton>
-      </Td>
+      </Td> */ }
       <Td isNumeric>
         <Skeleton
           isLoaded={ !isLoading }

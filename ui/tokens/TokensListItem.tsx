@@ -1,5 +1,5 @@
 import { Flex, HStack, Grid, GridItem, Skeleton } from '@chakra-ui/react';
-import BigNumber from 'bignumber.js';
+// import BigNumber from "bignumber.js";
 import React from 'react';
 
 import type { TokenInfo } from 'types/api/token';
@@ -26,10 +26,10 @@ const bridgedTokensFeature = config.features.bridgedTokens;
 const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
   const {
     address,
-    exchange_rate: exchangeRate,
+    // exchange_rate: exchangeRate,
     type,
     holders,
-    circulating_market_cap: marketCap,
+    // circulating_market_cap: marketCap,
     origin_chain_id: originalChainId,
   } = token;
   console.log(token, 'tokentokentokentokentoken');
@@ -58,6 +58,7 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
               <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag>
             ) }
           </Flex>
+
           <Skeleton
             isLoaded={ !isLoading }
             fontSize="sm"
@@ -86,7 +87,7 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
         />
         <AddressAddToWallet token={ token } isLoading={ isLoading }/>
       </Flex>
-      { exchangeRate && (
+      { /* { exchangeRate && (
         <HStack spacing={ 3 }>
           <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>
             Price
@@ -100,8 +101,8 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
             </span>
           </Skeleton>
         </HStack>
-      ) }
-      { marketCap && (
+      ) } */ }
+      { /* { marketCap && (
         <HStack spacing={ 3 }>
           <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>
             On-chain market cap
@@ -110,7 +111,7 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
             <span>{ BigNumber(marketCap).toFormat() }</span>
           </Skeleton>
         </HStack>
-      ) }
+      ) } */ }
       <HStack spacing={ 3 }>
         <Skeleton isLoaded={ !isLoading } fontSize="sm" fontWeight={ 500 }>
           Holders

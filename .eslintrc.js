@@ -251,7 +251,9 @@ module.exports = {
     'react/jsx-key': 'error',
     'react/jsx-no-bind': [ 'error', {
       ignoreRefs: true,
+      ignoreDOMComponents: true,
     } ],
+
     'react/jsx-curly-brace-presence': [ 'error', {
       props: 'never',
       children: 'never',
