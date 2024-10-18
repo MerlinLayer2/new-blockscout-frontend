@@ -46,7 +46,7 @@ const RoutedTabs = ({
   const handleTabChange = React.useCallback(
     (index: number) => {
       const nextTab = tabs[index];
-      if ([ 'reorgs\', \'uncles' ].includes(nextTab.id)) {
+      if ([ 'reorgs', 'uncles' ].includes(nextTab.id)) {
         return;
       }
       const queryForPathname = _pickBy(router.query, (value, key) =>
