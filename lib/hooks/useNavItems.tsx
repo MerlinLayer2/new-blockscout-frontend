@@ -248,14 +248,15 @@ export default function useNavItems(): ReturnType {
         icon: 'token',
         isActive: pathname.startsWith('/token'),
       },
-      config.features.marketplace.isEnabled ?
-        {
-          text: 'DApps',
-          nextRoute: { pathname: '/apps' as const },
-          icon: 'apps',
-          isActive: pathname.startsWith('/app'),
-        } :
-        null,
+      // config.features.marketplace.isEnabled ?
+      {
+        text: 'DApps',
+        nextRoute: { pathname: '/apps' as const },
+        icon: 'apps',
+        isActive: pathname.startsWith('/app'),
+      },
+      // :
+      // null,
       config.features.stats.isEnabled ?
         {
           text: 'Charts & stats',
