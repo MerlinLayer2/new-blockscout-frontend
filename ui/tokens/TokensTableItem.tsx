@@ -101,15 +101,32 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
               { bridgedChainTag && (
                 <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag>
               ) }
-            </Flex>
-            <Flex columnGap={ 1 }>
               { type === 'ERC-20' && (
-                <div onClick={ onGotoMerlinSwap }>merlinSwap</div>
+                <div
+                  onClick={ onGotoMerlinSwap }
+                  style={{
+                    color: '#ffffffcc',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  merlinSwap
+                </div>
               ) }
               { type === 'ERC-721' && (
-                <div onClick={ onGotoUniCross }>unicross</div>
+                <div
+                  onClick={ onGotoUniCross }
+                  style={{
+                    color: '#ffffffcc',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  unicross
+                </div>
               ) }
             </Flex>
+            { /* <Flex columnGap={1}></Flex> */ }
           </Flex>
         </Flex>
       </Td>
