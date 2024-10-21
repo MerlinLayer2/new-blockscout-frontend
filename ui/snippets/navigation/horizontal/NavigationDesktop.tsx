@@ -14,7 +14,7 @@ import NavLinkGroup from './NavLinkGroup';
 
 const NavigationDesktop = () => {
   const { mainNavItems } = useNavItems();
-
+  console.log(mainNavItems, 'mainNavItems');
   return (
     <Box borderColor="divider" borderBottomWidth="1px">
       <Flex
@@ -27,19 +27,39 @@ const NavigationDesktop = () => {
       >
         <NetworkLogo isCollapsed={ false } w={{ lg: 'auto' }} maxW="120px"/>
         <TestnetBadge ml={ 3 }/>
-        <chakra.nav ml="auto" mr={ config.features.account.isEnabled || config.features.blockchainInteraction.isEnabled ? 8 : 0 }>
+        <chakra.nav
+          ml="auto"
+          mr={
+            config.features.account.isEnabled ||
+            config.features.blockchainInteraction.isEnabled ?
+              8 :
+              0
+          }
+        >
           <Flex as="ul" columnGap={ 3 }>
             { mainNavItems.map((item) => {
               if (isGroupItem(item)) {
                 return <NavLinkGroup key={ item.text } item={ item }/>;
               } else {
-                return <NavLink key={ item.text } item={ item } noIcon py={ 1.5 } w="fit-content"/>;
+                return (
+                  <NavLink
+                    key={ item.text }
+                    item={ item }
+                    noIcon
+                    py={ 1.5 }
+                    w="fit-content"
+                  />
+                );
               }
             }) }
           </Flex>
         </chakra.nav>
-        { config.features.account.isEnabled && <ProfileMenuDesktop buttonBoxSize="32px"/> }
-        { config.features.blockchainInteraction.isEnabled && <WalletMenuDesktop size="sm"/> }
+        { config.features.account.isEnabled && (
+          <ProfileMenuDesktop buttonBoxSize="32px"/>
+        ) }
+        { config.features.blockchainInteraction.isEnabled && (
+          <WalletMenuDesktop size="sm"/>
+        ) }
       </Flex>
     </Box>
   );
