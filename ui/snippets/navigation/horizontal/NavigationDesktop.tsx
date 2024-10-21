@@ -14,7 +14,7 @@ import NavLinkGroup from './NavLinkGroup';
 
 const NavigationDesktop = () => {
   const { mainNavItems } = useNavItems();
-  console.log(mainNavItems, 'mainNavItems');
+  console.log(mainNavItems, 'mainNavItems1');
   return (
     <Box borderColor="divider" borderBottomWidth="1px">
       <Flex

@@ -18,7 +18,7 @@ type Props = {
 
 const ProfileMenuContent = ({ data, onNavLinkClick }: Props) => {
   const { accountNavItems, profileItem } = useNavItems();
-
+  console.log(useNavItems(), 'mainNavItems3');
   const handleSingOutClick = React.useCallback(() => {
     mixpanel.logEvent(
       mixpanel.EventTypes.ACCOUNT_ACCESS,
@@ -36,17 +36,26 @@ const ProfileMenuContent = ({ data, onNavLinkClick }: Props) => {
   return (
     <Box>
       { userName && (
-        <Box
-          fontSize="sm"
-          fontWeight={ 500 }
-          mb={ 1 }
-        >
+        <Box fontSize="sm" fontWeight={ 500 } mb={ 1 }>
           <span>Signed in as </span>
           <chakra.span color="text_secondary">{ userName }</chakra.span>
         </Box>
       ) }
-      <NavLink item={ profileItem } disableActiveState={ true } px="0px" isCollapsed={ false } onClick={ onNavLinkClick }/>
-      <Box as="nav" mt={ 2 } pt={ 2 } borderTopColor="divider" borderTopWidth="1px" { ...getDefaultTransitionProps() }>
+      <NavLink
+        item={ profileItem }
+        disableActiveState={ true }
+        px="0px"
+        isCollapsed={ false }
+        onClick={ onNavLinkClick }
+      />
+      <Box
+        as="nav"
+        mt={ 2 }
+        pt={ 2 }
+        borderTopColor="divider"
+        borderTopWidth="1px"
+        { ...getDefaultTransitionProps() }
+      >
         <VStack as="ul" spacing="0" alignItems="flex-start" overflow="hidden">
           { accountNavItems.map((item) => (
             <NavLink
@@ -60,8 +69,21 @@ const ProfileMenuContent = ({ data, onNavLinkClick }: Props) => {
           )) }
         </VStack>
       </Box>
-      <Box mt={ 2 } pt={ 3 } borderTopColor="divider" borderTopWidth="1px" { ...getDefaultTransitionProps() }>
-        <Button size="sm" width="full" variant="outline" as="a" href={ feature.logoutUrl } onClick={ handleSingOutClick }>
+      <Box
+        mt={ 2 }
+        pt={ 3 }
+        borderTopColor="divider"
+        borderTopWidth="1px"
+        { ...getDefaultTransitionProps() }
+      >
+        <Button
+          size="sm"
+          width="full"
+          variant="outline"
+          as="a"
+          href={ feature.logoutUrl }
+          onClick={ handleSingOutClick }
+        >
           Sign Out
         </Button>
       </Box>
