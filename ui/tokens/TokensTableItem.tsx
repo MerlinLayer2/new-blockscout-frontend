@@ -1,4 +1,11 @@
-import { Flex, Td, Tr, Skeleton } from '@chakra-ui/react';
+import {
+  Flex,
+  Td,
+  Tr,
+  Skeleton,
+  useColorModeValue,
+  Link,
+} from '@chakra-ui/react';
 // import BigNumber from "bignumber.js";
 import React from 'react';
 
@@ -46,12 +53,8 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
     ens_domain_name: null,
     implementations: null,
   };
-  const onGotoMerlinSwap = () => {
-    window.open('https://merlinswap.org/trade/swap');
-  };
-  const onGotoUniCross = () => {
-    window.open('https://unicross.xyz/index');
-  };
+
+  const logoColor = useColorModeValue('blue.600', 'white');
   return (
     <Tr
       sx={{
@@ -102,28 +105,46 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
                 <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag>
               ) }
               { type === 'ERC-20' && (
-                <div
-                  onClick={ onGotoMerlinSwap }
-                  style={{
-                    color: '#ffffffcc',
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                  }}
+                // <div
+                //   onClick={ onGotoMerlinSwap }
+                //   style={{
+                //     color: '#ffffffcc',
+                //     fontSize: '12px',
+                //     cursor: 'pointer',
+                //   }}
+                // >
+                //   merlinSwap
+                // </div>
+                <Link
+                  href="https://merlinswap.org/trade/swap"
+                  isExternal
+                  display="inline-flex"
+                  color={ logoColor }
+                  _hover={{ color: logoColor }}
                 >
-                  merlinSwap
-                </div>
+                  Merlin Swap
+                </Link>
               ) }
               { type === 'ERC-721' && (
-                <div
-                  onClick={ onGotoUniCross }
-                  style={{
-                    color: '#ffffffcc',
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                  }}
+                // <div
+                //   onClick={onGotoUniCross}
+                //   style={{
+                //     color: "#ffffffcc",
+                //     fontSize: "12px",
+                //     cursor: "pointer",
+                //   }}
+                // >
+                //   unicross
+                // </div>
+                <Link
+                  href="https://unicross.xyz/index"
+                  isExternal
+                  display="inline-flex"
+                  color={ logoColor }
+                  _hover={{ color: logoColor }}
                 >
                   unicross
-                </div>
+                </Link>
               ) }
             </Flex>
             { /* <Flex columnGap={1}></Flex> */ }
