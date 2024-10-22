@@ -232,7 +232,7 @@ export default function useNavItems(): ReturnType {
       },
       ...config.UI.navigation.otherLinks,
     ].filter(Boolean);
-
+    console.log(config.features.marketplace, 'config.features.marketplace');
     const mainNavItems: ReturnType['mainNavItems'] = [
       {
         text: 'Blockchain',
