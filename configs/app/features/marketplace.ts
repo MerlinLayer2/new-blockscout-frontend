@@ -45,7 +45,6 @@ const config: Feature<
 }
 > = (() => {
   if (enabled === 'true' && chain.rpcUrl && submitFormUrl) {
-    console.log('come in 1');
     const props = {
       submitFormUrl,
       categoriesUrl,
@@ -69,7 +68,6 @@ const config: Feature<
     };
 
     if (configUrl) {
-      console.log('come in 2');
       return Object.freeze({
         title,
         isEnabled: true,
@@ -77,7 +75,6 @@ const config: Feature<
         ...props,
       });
     } else if (adminServiceApiHost) {
-      console.log('come in 3');
       return Object.freeze({
         title,
         isEnabled: true,
@@ -89,7 +86,14 @@ const config: Feature<
       });
     }
   }
-  console.log('come in 4');
+  console.log(
+    enabled,
+    chain.rpcUrl,
+    submitFormUrl,
+    configUrl,
+    adminServiceApiHost,
+    ' marketsssslogs ',
+  );
   return Object.freeze({
     title,
     isEnabled: false,
