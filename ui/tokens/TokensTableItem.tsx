@@ -105,42 +105,24 @@ const TokensTableItem = ({ token, page, index, isLoading }: Props) => {
                 <Tag isLoading={ isLoading }>{ bridgedChainTag }</Tag>
               ) }
               { type === 'ERC-20' && (
-                // <div
-                //   onClick={ onGotoMerlinSwap }
-                //   style={{
-                //     color: '#ffffffcc',
-                //     fontSize: '12px',
-                //     cursor: 'pointer',
-                //   }}
-                // >
-                //   merlinSwap
-                // </div>
                 <Link
                   href="https://merlinswap.org/trade/swap"
                   isExternal
                   display="inline-flex"
                   color={ logoColor }
+                  fontSize="xs"
                   _hover={{ color: logoColor }}
                 >
                   Merlin Swap
                 </Link>
               ) }
               { type === 'ERC-721' && (
-                // <div
-                //   onClick={onGotoUniCross}
-                //   style={{
-                //     color: "#ffffffcc",
-                //     fontSize: "12px",
-                //     cursor: "pointer",
-                //   }}
-                // >
-                //   unicross
-                // </div>
                 <Link
                   href="https://unicross.xyz/index"
                   isExternal
                   display="inline-flex"
                   color={ logoColor }
+                  fontSize="xs"
                   _hover={{ color: logoColor }}
                 >
                   unicross
