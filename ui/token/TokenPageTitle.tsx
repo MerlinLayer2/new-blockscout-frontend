@@ -199,7 +199,7 @@ const TokenPageTitle = ({ tokenQuery, addressQuery, hash }: Props) => {
   };
   return (
     <PageTitle
-      title={ `${ decodeHtmlEntitiesName || 'Unnamed token' }${ tokenSymbolText }` }
+      title={ `${ decodeHtmlEntitiesName() || 'Unnamed token' }${ tokenSymbolText }` }
       isLoading={ tokenQuery.isPlaceholderData }
       backLink={ backLink }
       beforeTitle={
