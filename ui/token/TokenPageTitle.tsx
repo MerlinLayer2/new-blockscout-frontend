@@ -192,14 +192,16 @@ const TokenPageTitle = ({ tokenQuery, addressQuery, hash }: Props) => {
     </Flex>
   );
   console.log(tokenQuery.data, 'tokenQuery.datatokenQuery.data');
-  // const decodeHtmlEntitiesName = useMemo((): string | undefined => {
-  //   const textarea = document.createElement("textarea");
-  //   textarea.innerHTML = tokenQuery.data?.name as string;
-  //   return textarea.value;
-  // }, [tokenQuery.data?.name]);
+
+  const decodeHtmlEntities = () => {
+    const parser = new DOMParser();
+    const _parse = tokenQuery.data?.name as string;
+    const doc = parser.parseFromString(_parse, 'text/html');
+    return doc.documentElement.textContent;
+  };
   return (
     <PageTitle
-      title={ `${ tokenQuery.data?.name || 'Unnamed token' }${ tokenSymbolText }` }
+      title={ `${ decodeHtmlEntities() || 'Unnamed token' }${ tokenSymbolText }` }
       isLoading={ tokenQuery.isPlaceholderData }
       backLink={ backLink }
       beforeTitle={
