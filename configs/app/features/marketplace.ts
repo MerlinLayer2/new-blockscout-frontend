@@ -44,14 +44,6 @@ const config: Feature<
   rating: { airtableApiKey: string; airtableBaseId: string } | undefined;
 }
 > = (() => {
-  console.log(
-    enabled,
-    chain.rpcUrl,
-    submitFormUrl,
-    configUrl,
-    adminServiceApiHost,
-    ' marketsssslogs ',
-  );
   if (enabled === 'true' && chain.rpcUrl && submitFormUrl) {
     const props = {
       submitFormUrl,
@@ -94,7 +86,14 @@ const config: Feature<
       });
     }
   }
-
+  console.log(
+    enabled,
+    chain.rpcUrl,
+    submitFormUrl,
+    configUrl,
+    adminServiceApiHost,
+    ' marketsssslogs ',
+  );
   return Object.freeze({
     title,
     isEnabled: false,
