@@ -1,6 +1,6 @@
 import { Box, Flex, Tooltip, useToken } from '@chakra-ui/react';
 import type { UseQueryResult } from '@tanstack/react-query';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import type { Address } from 'types/api/address';
 import type { TokenInfo } from 'types/api/token';
@@ -192,14 +192,14 @@ const TokenPageTitle = ({ tokenQuery, addressQuery, hash }: Props) => {
     </Flex>
   );
   console.log(tokenQuery.data, 'tokenQuery.datatokenQuery.data');
-  const decodeHtmlEntitiesName = useMemo((): string | undefined => {
-    const textarea = document.createElement('textarea');
-    textarea.innerHTML = tokenQuery.data?.name as string;
-    return textarea.value;
-  }, [ tokenQuery.data?.name ]);
+  // const decodeHtmlEntitiesName = useMemo((): string | undefined => {
+  //   const textarea = document.createElement("textarea");
+  //   textarea.innerHTML = tokenQuery.data?.name as string;
+  //   return textarea.value;
+  // }, [tokenQuery.data?.name]);
   return (
     <PageTitle
-      title={ `${ decodeHtmlEntitiesName || 'Unnamed token' }${ tokenSymbolText }` }
+      title={ `${ tokenQuery.data?.name || 'Unnamed token' }${ tokenSymbolText }` }
       isLoading={ tokenQuery.isPlaceholderData }
       backLink={ backLink }
       beforeTitle={
