@@ -192,9 +192,14 @@ const TokenPageTitle = ({ tokenQuery, addressQuery, hash }: Props) => {
     </Flex>
   );
   console.log(tokenQuery.data, 'tokenQuery.datatokenQuery.data');
+  const decodeHtmlEntitiesName = (): string | undefined => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = tokenQuery.data?.name as string;
+    return textarea.value;
+  };
   return (
     <PageTitle
-      title={ `${ tokenQuery.data?.name || 'Unnamed token' }${ tokenSymbolText }` }
+      title={ `${ decodeHtmlEntitiesName || 'Unnamed token' }${ tokenSymbolText }` }
       isLoading={ tokenQuery.isPlaceholderData }
       backLink={ backLink }
       beforeTitle={

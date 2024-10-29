@@ -129,7 +129,6 @@ const PageTitle = ({
       window.removeEventListener('resize', handleResize);
     };
   }, [ updatedTruncateState ]);
-  console.log(beforeTitle, 'beforeTitle');
   return (
     <Flex className={ className } flexDir="column" rowGap={ 3 } mb={ 6 }>
       <Flex
