@@ -488,24 +488,23 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           <Flex columnGap={ 3 }>{ addressFromTags }</Flex>
         ) }
       </DetailsInfoItem.Value>
-      { Array.isArray(data.token_transfers) &&
-      data.token_transfers.length > 0 ? (
-          <>
-            <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
+      { data?.to?.hash ? (
+        <>
+          <DetailsInfoItem.Label hint="Sender Address " isLoading={ isLoading }>
             AA Address
-            </DetailsInfoItem.Label>
-            <DetailsInfoItem.Value columnGap={ 3 }>
-              { data.token_transfers?.[0]?.from.hash ? (
-                <AddressStringOrParam
-                  address={ data.token_transfers?.[0]?.from }
-                  isLoading={ isLoading }
-                />
-              ) : (
-                ' no sender'
-              ) }
-            </DetailsInfoItem.Value>
-          </>
-        ) : null }
+          </DetailsInfoItem.Label>
+          <DetailsInfoItem.Value columnGap={ 3 }>
+            { data?.to?.hash ? (
+              <AddressStringOrParam
+                address={ data?.to?.hash }
+                isLoading={ isLoading }
+              />
+            ) : (
+              ' no sender'
+            ) }
+          </DetailsInfoItem.Value>
+        </>
+      ) : null }
       <DetailsInfoItem.Label
         hint="Address (external or contract) receiving the transaction"
         isLoading={ isLoading }
