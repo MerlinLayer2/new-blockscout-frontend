@@ -19,15 +19,14 @@ const NumberWidgetsList = () => {
   if (isError) {
     return <DataFetchAlert/>;
   }
-
+  console.log(data?.counters, ' data?.counters');
   return (
     <Grid
       gridTemplateColumns={{ base: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }}
       gridGap={ 4 }
     >
-      {
-        data?.counters?.map(({ id, title, value, units, description }, index) => {
-
+      { data?.counters?.map(
+        ({ id, title, value, units, description }, index) => {
           let unitsStr = '';
           if (units && UNITS_WITHOUT_SPACE.includes(units)) {
             unitsStr = units;
@@ -39,13 +38,16 @@ const NumberWidgetsList = () => {
             <StatsWidget
               key={ id + (isPlaceholderData ? index : '') }
               label={ title }
-              value={ `${ Number(value).toLocaleString(undefined, { maximumFractionDigits: 3, notation: 'compact' }) }${ unitsStr }` }
+              value={ `${ Number(value).toLocaleString(undefined, {
+                maximumFractionDigits: 3,
+                notation: 'compact',
+              }) }${ unitsStr }` }
               isLoading={ isPlaceholderData }
               hint={ description }
             />
           );
-        })
-      }
+        },
+      ) }
     </Grid>
   );
 };
