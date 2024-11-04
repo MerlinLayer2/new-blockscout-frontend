@@ -6,6 +6,8 @@ import type { Transaction } from 'types/api/transaction';
 import type { ExcludeUndefined } from 'types/utils';
 
 import { currencyUnits } from 'lib/units';
+import { INTERNAL_TX } from 'stubs/internalTx';
+import { generateListStub } from 'stubs/utils';
 import Tag from 'ui/shared/chakra/Tag';
 import CurrencyValue from 'ui/shared/CurrencyValue';
 import * as DetailsInfoItem from 'ui/shared/DetailsInfoItem';
@@ -13,43 +15,55 @@ import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import LogDecodedInputData from 'ui/shared/logs/LogDecodedInputData';
+import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
 import RawInputData from 'ui/shared/RawInputData';
 import TxFee from 'ui/shared/tx/TxFee';
 import TxDetailsGasPrice from 'ui/tx/details/TxDetailsGasPrice';
 import TxDetailsOther from 'ui/tx/details/TxDetailsOther';
 
+import useTxQuery from './useTxQuery';
 interface Props {
   data: ExcludeUndefined<Transaction['wrapped']>;
 }
 
 const TxDetailsWrapped = ({ data }: Props) => {
+  const _txQuery = useTxQuery();
+
+  // ts-ingore
+  const resInternal = useQueryWithPages({
+    resourceName: 'tx_internal_txs',
+    pathParams: { hash: _txQuery?.data?.hash as string },
+    options: {
+      enabled: Boolean(_txQuery?.data?.hash),
+      placeholderData: generateListStub<'tx_internal_txs'>(INTERNAL_TX, 3, {
+        next_page_params: null,
+      }),
+    },
+  });
+  console.log(resInternal, 'internal_hash_datainternal_hash_data internal');
   return (
-    <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'auto minmax(0, 1fr)' }}>
-      <DetailsInfoItem.Label
-        hint="Unique character string (TxID) assigned to every verified transaction"
-      >
+    <Grid
+      columnGap={ 8 }
+      rowGap={{ base: 3, lg: 3 }}
+      templateColumns={{ base: 'minmax(0, 1fr)', lg: 'auto minmax(0, 1fr)' }}
+    >
+      <DetailsInfoItem.Label hint="Unique character string (TxID) assigned to every verified transaction">
         Transaction hash
       </DetailsInfoItem.Label>
       <DetailsInfoItem.Value flexWrap="nowrap">
         <TxEntity hash={ data.hash } noIcon noLink noCopy={ false }/>
       </DetailsInfoItem.Value>
 
-      <DetailsInfoItem.Label
-        hint="Transaction method name"
-      >
+      <DetailsInfoItem.Label hint="Transaction method name">
         Method
       </DetailsInfoItem.Label>
       <DetailsInfoItem.Value>
-        <Tag colorScheme="gray">
-          { data.method }
-        </Tag>
+        <Tag colorScheme="gray">{ data.method }</Tag>
       </DetailsInfoItem.Value>
 
       <DetailsInfoItemDivider/>
 
-      <DetailsInfoItem.Label
-        hint="Address (external or contract) receiving the transaction"
-      >
+      <DetailsInfoItem.Label hint="Address (external or contract) receiving the transaction">
         { data.to?.is_contract ? 'Interacted with contract' : 'To' }
       </DetailsInfoItem.Label>
       <DetailsInfoItem.Value>
@@ -60,9 +74,7 @@ const TxDetailsWrapped = ({ data }: Props) => {
 
       <DetailsInfoItemDivider/>
 
-      <DetailsInfoItem.Label
-        hint="Value sent in the native token (and USD) if applicable"
-      >
+      <DetailsInfoItem.Label hint="Value sent in the native token (and USD) if applicable">
         Value
       </DetailsInfoItem.Label>
       <DetailsInfoItem.Value>
@@ -75,9 +87,7 @@ const TxDetailsWrapped = ({ data }: Props) => {
 
       { data.fee.value !== null && (
         <>
-          <DetailsInfoItem.Label
-            hint="Total transaction fee"
-          >
+          <DetailsInfoItem.Label hint="Total transaction fee">
             Transaction fee
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value>
@@ -90,9 +100,7 @@ const TxDetailsWrapped = ({ data }: Props) => {
 
       { data.gas_limit && (
         <>
-          <DetailsInfoItem.Label
-            hint="Maximum amount of gas that can be used by the transaction"
-          >
+          <DetailsInfoItem.Label hint="Maximum amount of gas that can be used by the transaction">
             Gas limit
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value>
@@ -105,9 +113,7 @@ const TxDetailsWrapped = ({ data }: Props) => {
 
       <TxDetailsOther type={ data.type } nonce={ data.nonce } position={ null }/>
 
-      <DetailsInfoItem.Label
-        hint="Binary data included with the transaction. See logs tab for additional info"
-      >
+      <DetailsInfoItem.Label hint="Binary data included with the transaction. See logs tab for additional info">
         Raw input
       </DetailsInfoItem.Label>
       <DetailsInfoItem.Value>
@@ -116,9 +122,7 @@ const TxDetailsWrapped = ({ data }: Props) => {
 
       { data.decoded_input && (
         <>
-          <DetailsInfoItem.Label
-            hint="Decoded input data"
-          >
+          <DetailsInfoItem.Label hint="Decoded input data">
             Decoded input data
           </DetailsInfoItem.Label>
           <DetailsInfoItem.Value>
