@@ -24,7 +24,13 @@ const ContractVerification = () => {
   return (
     <>
       <PageTitle title="Verify & publish contract"/>
-      <div style={{ border: '1px solid #2D3748', borderRadius: '10px' }}>
+      <div
+        style={{
+          border: '1px solid #2D3748',
+          borderRadius: '10px',
+          padding: '14px',
+        }}
+      >
         { ' ' }
         { content }
       </div>
