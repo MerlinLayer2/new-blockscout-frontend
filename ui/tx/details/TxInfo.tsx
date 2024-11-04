@@ -29,6 +29,8 @@ import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
 // import { MESSAGE_DESCRIPTIONS } from "lib/tx/arbitrumMessageStatusDescription";
 import getConfirmationDuration from 'lib/tx/getConfirmationDuration';
 import { currencyUnits } from 'lib/units';
+import { INTERNAL_TX } from 'stubs/internalTx';
+import { generateListStub } from 'stubs/utils';
 import Tag from 'ui/shared/chakra/Tag';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import CurrencyValue from 'ui/shared/CurrencyValue';
@@ -45,6 +47,7 @@ import HashStringShortenDynamic from 'ui/shared/HashStringShortenDynamic';
 // import Hint from "ui/shared/Hint";
 import IconSvg from 'ui/shared/IconSvg';
 import LogDecodedInputData from 'ui/shared/logs/LogDecodedInputData';
+import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
 import RawInputData from 'ui/shared/RawInputData';
 import StatusTag from 'ui/shared/statusTag/StatusTag';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
@@ -75,6 +78,20 @@ interface Props {
 const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
   const [ isExpanded, setIsExpanded ] = React.useState(false);
 
+  const _txQuery = useTxQuery();
+
+  const resInternal = useQueryWithPages({
+    resourceName: 'tx_internal_txs',
+    pathParams: { hash: _txQuery?.data?.hash as string },
+    options: {
+      enabled: Boolean(_txQuery?.data?.hash),
+      placeholderData: generateListStub<'tx_internal_txs'>(INTERNAL_TX, 3, {
+        next_page_params: null,
+      }),
+    },
+  });
+  console.log(resInternal, 'internal_hash_datainternal_hash_data internal');
+
   const handleCutClick = React.useCallback(() => {
     setIsExpanded((flag) => !flag);
     scroller.scrollTo('TxInfo__cutLink', {
@@ -98,7 +115,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
   if (!data) {
     return null;
   }
-  console.log(data, 'datadatadatadatadatadata');
+  // console.log(data, 'datadatadatadatadatadata');
   const addressFromTags = [
     ...(data.from.private_tags || []),
     ...(data.from.public_tags || []),
