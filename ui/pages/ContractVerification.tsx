@@ -29,6 +29,7 @@ const ContractVerification = () => {
           border: '1px solid #2D3748',
           borderRadius: '10px',
           padding: '14px',
+          boxShadow: '0 0.5rem 1.2rem rgb(189 197 209 / 20%)',
         }}
       >
         { ' ' }
