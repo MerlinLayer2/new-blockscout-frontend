@@ -6,8 +6,8 @@ import type { Transaction } from 'types/api/transaction';
 import type { ExcludeUndefined } from 'types/utils';
 
 import { currencyUnits } from 'lib/units';
-import { INTERNAL_TX } from 'stubs/internalTx';
-import { generateListStub } from 'stubs/utils';
+// import { INTERNAL_TX } from "stubs/internalTx";
+// import { generateListStub } from "stubs/utils";
 import Tag from 'ui/shared/chakra/Tag';
 import CurrencyValue from 'ui/shared/CurrencyValue';
 import * as DetailsInfoItem from 'ui/shared/DetailsInfoItem';
@@ -15,32 +15,31 @@ import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import LogDecodedInputData from 'ui/shared/logs/LogDecodedInputData';
-import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
+// import useQueryWithPages from "ui/shared/pagination/useQueryWithPages";
 import RawInputData from 'ui/shared/RawInputData';
 import TxFee from 'ui/shared/tx/TxFee';
 import TxDetailsGasPrice from 'ui/tx/details/TxDetailsGasPrice';
 import TxDetailsOther from 'ui/tx/details/TxDetailsOther';
 
-import useTxQuery from './useTxQuery';
+// import useTxQuery from "./useTxQuery";
 interface Props {
   data: ExcludeUndefined<Transaction['wrapped']>;
 }
 
 const TxDetailsWrapped = ({ data }: Props) => {
-  const _txQuery = useTxQuery();
+  // const _txQuery = useTxQuery();
 
-  // ts-ingore
-  const resInternal = useQueryWithPages({
-    resourceName: 'tx_internal_txs',
-    pathParams: { hash: _txQuery?.data?.hash as string },
-    options: {
-      enabled: Boolean(_txQuery?.data?.hash),
-      placeholderData: generateListStub<'tx_internal_txs'>(INTERNAL_TX, 3, {
-        next_page_params: null,
-      }),
-    },
-  });
-  console.log(resInternal, 'internal_hash_datainternal_hash_data internal');
+  // const resInternal = useQueryWithPages({
+  //   resourceName: 'tx_internal_txs',
+  //   pathParams: { hash: _txQuery?.data?.hash as string },
+  //   options: {
+  //     enabled: Boolean(_txQuery?.data?.hash),
+  //     placeholderData: generateListStub<'tx_internal_txs'>(INTERNAL_TX, 3, {
+  //       next_page_params: null,
+  //     }),
+  //   },
+  // });
+  console.log(1212121, 'internal_hash_datainternal_hash_data internal');
   return (
     <Grid
       columnGap={ 8 }
