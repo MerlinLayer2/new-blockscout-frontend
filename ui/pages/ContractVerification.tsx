@@ -18,15 +18,16 @@ const ContractVerification = () => {
       return <ContentLoader/>;
     }
 
-    return (
-      <ContractVerificationForm config={ configQuery.data }/>
-    );
+    return <ContractVerificationForm config={ configQuery.data }/>;
   })();
 
   return (
     <>
       <PageTitle title="Verify & publish contract"/>
-      { content }
+      <div style={{ border: '1px solid #2D3748', borderRadius: '10px' }}>
+        { ' ' }
+        { content }
+      </div>
     </>
   );
 };
