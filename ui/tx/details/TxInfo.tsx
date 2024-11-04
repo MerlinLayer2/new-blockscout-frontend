@@ -67,6 +67,8 @@ import TxAllowedPeekers from 'ui/tx/TxAllowedPeekers';
 import TxSocketAlert from 'ui/tx/TxSocketAlert';
 import ZkSyncL2TxnBatchHashesInfo from 'ui/txnBatches/zkSyncL2/ZkSyncL2TxnBatchHashesInfo';
 
+import useTxQuery from '../useTxQuery';
+
 const rollupFeature = config.features.rollup;
 
 interface Props {
